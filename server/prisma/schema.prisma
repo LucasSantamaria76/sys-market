@@ -1,0 +1,58 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model products {
+  barcode     String             @id @db.VarChar(13)
+  description String             @db.VarChar
+  price       Decimal            @db.Decimal(15, 2)
+  stock       Decimal?           @default(0) @db.Decimal(6, 2)
+  benefit     Decimal?           @db.Decimal(3, 0)
+  cost        Decimal?           @db.Decimal(15, 5)
+  photoURL    String?
+  providers   provider_product[]
+  sale        saleItem[]
+}
+
+model providers {
+  id           Int                @id @default(autoincrement())
+  nameProvider String             @db.VarChar
+  address      String?            @db.VarChar(50)
+  phone        String?            @db.VarChar(15)
+  products     provider_product[]
+}
+
+model provider_product {
+  price_cost    Decimal?  @default(0) @db.Decimal(15, 2)
+  last_purchase DateTime  @default(now()) @db.Timestamp()
+  product       products  @relation(fields: [productID], references: [barcode], onUpdate: Cascade, onDelete: Cascade)
+  productID     String
+  provider      providers @relation(fields: [providerID], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  providerID    Int
+
+  @@id([productID, providerID])
+}
+
+model sale {
+  id            Int        @id @default(autoincrement())
+  total         Decimal    @db.Decimal(15, 2)
+  paymentMethod Decimal    @db.Decimal()
+  date          DateTime   @db.Date
+  items         saleItem[]
+}
+
+model saleItem {
+  sale      sale     @relation(fields: [saleId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  saleId    Int
+  quantity  Decimal  @db.Decimal(10, 2)
+  price     Decimal  @db.Decimal(15, 2)
+  product   products @relation(fields: [productId], references: [barcode], onDelete: SetNull)
+  productId String   @db.VarChar(13)
+
+  @@id([saleId, productId])
+}
