@@ -1,7 +1,27 @@
 import { useState } from 'react';
-import { createStyles, Header, Container, Group, Burger, Paper, Transition } from '@mantine/core';
+import {
+  createStyles,
+  Header,
+  Container,
+  Group,
+  Burger,
+  Paper,
+  Transition,
+  Menu,
+  UnstyledButton,
+  Avatar,
+  Text,
+  Button,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { NavLink } from 'react-router-dom';
+import { BiChevronDown } from 'react-icons/bi';
+import { CiSettings } from 'react-icons/ci';
+import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
+import { IoLogOutOutline } from 'react-icons/io5';
+import { useSelector, useDispatch } from 'react-redux';
+import { ModalLogin } from '../Modals/ModalLogin';
+import { logout } from '../../redux/slices/authSlice';
 
 const HEADER_HEIGHT = 60;
 
@@ -74,25 +94,51 @@ const useStyles = createStyles((theme) => ({
       color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
     },
   },
+  user: {
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+    borderRadius: theme.radius.sm,
+    transition: 'background-color 100ms ease',
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    },
+
+    [theme.fn.smallerThan('xs')]: {
+      display: 'none',
+    },
+  },
 }));
 
 export const HeaderContainer = ({ links }) => {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
+  const [userMenuOpened, setUserMenuOpened] = useState(false);
   const { classes, cx } = useStyles();
+  const {
+    user: { isAuthenticated, userName, role },
+  } = useSelector((state) => state.auth);
+  const [openLogin, setOpenLogin] = useState(false);
+  const dispatch = useDispatch();
 
-  const items = links.map((link) => (
-    <NavLink
-      key={link.label}
-      to={`/${link.link}`}
-      className={cx(classes.link, { [classes.linkActive]: active === link.link })}
-      onClick={(event) => {
-        setActive(link.link);
-        close();
-      }}>
-      {link.label}
-    </NavLink>
-  ));
+  const items = links.map(({ link, label }) => {
+    const authorized = link !== 'management' ? true : role === 'ADMIN' ? true : false;
+    return (
+      isAuthenticated &&
+      authorized && (
+        <NavLink
+          key={label}
+          to={`/${link}`}
+          className={cx(classes.link, { [classes.linkActive]: active === link })}
+          onClick={(event) => {
+            setActive(link);
+            close();
+          }}>
+          {label}
+        </NavLink>
+      )
+    );
+  });
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
@@ -110,6 +156,53 @@ export const HeaderContainer = ({ links }) => {
             </Paper>
           )}
         </Transition>
+        {isAuthenticated ? (
+          <Menu
+            width={260}
+            position='bottom-end'
+            transition='pop-top-right'
+            onClose={() => setUserMenuOpened(false)}
+            onOpen={() => setUserMenuOpened(true)}>
+            <Menu.Target>
+              <UnstyledButton className={cx(classes.user, { [classes.userActive]: userMenuOpened })}>
+                <Group spacing={7}>
+                  <Avatar
+                    src={
+                      'https://www.fedex.com/content/dam/fedex/us-united-states/shipping/images/2020/Q2/account_purple_icon_1988286190.png'
+                    }
+                    alt='photoURL'
+                    radius='xl'
+                    size={20}
+                  />
+                  <Text weight={500} size='sm' sx={{ lineHeight: 1 }} mr={3}>
+                    {userName[0].toUpperCase() + userName.slice(1)}
+                  </Text>
+                  <BiChevronDown size={12} stroke={1.5} />
+                </Group>
+              </UnstyledButton>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item icon={<CiSettings size={20} color='teal' />}>Configuración de la cuenta</Menu.Item>
+              <Menu.Item
+                component='button'
+                onClick={() => setOpenLogin(true)}
+                icon={<HiOutlineSwitchHorizontal size={20} color='teal' />}>
+                Cambiar cuenta
+              </Menu.Item>
+              <Menu.Item
+                component='button'
+                onClick={() => dispatch(logout())}
+                icon={<IoLogOutOutline size={20} color='teal' />}>
+                Cerrar sesión
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        ) : (
+          <Button variant='outline' onClick={() => setOpenLogin(true)}>
+            Iniciar sesión
+          </Button>
+        )}
+        <ModalLogin opened={openLogin} setOpened={setOpenLogin} />
       </Container>
     </Header>
   );

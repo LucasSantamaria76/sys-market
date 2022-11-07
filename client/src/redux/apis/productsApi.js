@@ -4,7 +4,16 @@ const API = 'http://localhost:4000/products';
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: API,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.user.token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   refetchOnMountOrArgChange: true,
   refetchOnReconnect: true,
   refetchOnFocus: true,

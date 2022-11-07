@@ -1,8 +1,8 @@
 import { Avatar } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
-import { PAYMENT_METHODS_STRING } from '../../constants/constants';
-import { useStylesDataTable } from '../../styles/useStyles';
-import { formatPrice } from '../../utils/formatPrice';
+import { PAYMENT_METHODS_STRING } from '../../../constants/constants';
+import { useStylesDataTable } from '../../../styles/useStyles';
+import { formatPrice } from '../../../utils/formatPrice';
 
 export const DataTableByDate = ({ records, isLoading }) => {
   const { classes } = useStylesDataTable();
@@ -11,31 +11,34 @@ export const DataTableByDate = ({ records, isLoading }) => {
     <DataTable
       withBorder
       withColumnBorders
+      classNames={classes}
       highlightOnHover
       noRecordsIcon=' '
       noRecordsText='No hay ventas'
       records={records}
       idAccessor='id'
+      width='100%'
+      sx={{ width: '100%' }}
       columns={[
         {
           accessor: 'quantity',
           title: 'Cant. Art.',
           textAlignment: 'center',
-          width: 60,
+          width: 120,
           render: ({ items }) => items?.length,
         },
         {
           accessor: 'paymentMethod',
           title: 'Metodo de pagó',
           textAlignment: 'center',
-          width: 100,
+          width: 150,
           render: ({ paymentMethod }) => PAYMENT_METHODS_STRING[paymentMethod],
         },
         {
           accessor: 'total',
           title: 'Total',
           textAlignment: 'right',
-          width: 120,
+          width: 150,
           render: ({ total }) => formatPrice(total),
         },
       ]}
@@ -62,6 +65,7 @@ export const DataTableByDate = ({ records, isLoading }) => {
               {
                 accessor: 'description',
                 title: 'Descripción',
+                width: 500,
                 ellipsis: true,
                 titleStyle: { textAlign: 'center' },
                 visibleMediaQuery: (theme) => `(min-width: ${theme.breakpoints.sm}px)`,
@@ -77,7 +81,7 @@ export const DataTableByDate = ({ records, isLoading }) => {
               },
               {
                 accessor: 'quantity',
-                title: 'Cantidad',
+                title: 'Cant.zzz',
                 textAlignment: 'center',
                 width: 60,
               },

@@ -20,7 +20,7 @@ export const SalesListByDate = () => {
 
   return (
     <Container size='xl' pt={20} sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Stack>
+      <Stack align={'center'}>
         <DatePicker
           value={valueDate}
           onChange={handleChange}

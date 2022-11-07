@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "user" ALTER COLUMN "userName" SET DATA TYPE VARCHAR(25);
