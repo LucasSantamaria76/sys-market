@@ -7,6 +7,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum RoleStatus {
+  OPERATOR
+  ADMIN
+}
+
 model products {
   barcode     String             @id @db.VarChar(13)
   description String             @db.VarChar
@@ -55,4 +60,11 @@ model saleItem {
   productId String   @db.VarChar(13)
 
   @@id([saleId, productId])
+}
+
+model user {
+  id       Int        @id @default(autoincrement())
+  userName String     @unique @db.VarChar(25)
+  role     RoleStatus @default(OPERATOR)
+  password String     @db.VarChar()
 }

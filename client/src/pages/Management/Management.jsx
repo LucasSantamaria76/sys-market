@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const Management = () => {
   return (
     <Container size='xl' pt={50} sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Button sx={{ height: '300px', width: '300px' }} variant='outline'>
+      <Button component={Link} to='/operatorManagement' sx={{ height: '300px', width: '300px' }} variant='outline'>
         <Stack sx={{ alignItems: 'center' }}>
           <Avatar size='140px' src='https://sglchile.cl/wp-content/uploads/2022/01/login-usuario-3.png' />
           <Text align='center' size={'lg'} mb={10}>

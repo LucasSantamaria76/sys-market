@@ -8,6 +8,8 @@ import { Providers } from './../pages/Providers/Providers';
 import { Management } from './../pages/Management/Management';
 import { Home } from './../pages/Home/Home';
 import { SalesListByDate } from './../pages/SalesListByDate/SalesListByDate';
+import { OperatorManagement } from './../pages/Management/OperatorManagement';
+import { ProtectedRoute } from './ProtectedRoute';
 
 export const router = createBrowserRouter([
   {
@@ -16,28 +18,60 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: '',
+        element: <Home />,
+      },
+      {
         path: 'home',
         element: <Home />,
       },
       {
         path: 'sales',
-        element: <Sales />,
+        element: (
+          <ProtectedRoute to='/'>
+            <Sales />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'products',
-        element: <Products />,
+        element: (
+          <ProtectedRoute to='/'>
+            <Products />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'providers',
-        element: <Providers />,
+        element: (
+          <ProtectedRoute to='/'>
+            <Providers />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'management',
-        element: <Management />,
+        element: (
+          <ProtectedRoute to='/'>
+            <Management />
+          </ProtectedRoute>
+        ),
       },
       {
         path: 'salesListByDate',
-        element: <SalesListByDate />,
+        element: (
+          <ProtectedRoute to='/'>
+            <SalesListByDate />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'operatorManagement',
+        element: (
+          <ProtectedRoute to='/'>
+            <OperatorManagement />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
