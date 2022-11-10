@@ -4,6 +4,9 @@ import { UsersControllers } from './../controllers/users.controllers';
 
 const router = Router();
 
-router.get('/', verifyToken, UsersControllers.getAll);
+router.use(verifyToken);
+router.get('/', UsersControllers.getAll);
+router.delete('/:id', UsersControllers.delete);
+router.put('/:id', UsersControllers.update);
 
 export default router;

@@ -6,6 +6,7 @@ import providersRoutes from './routes/providers.routes';
 import salesRoutes from './routes/sales.routes';
 import authRoutes from './routes/auth.routes';
 import usersRoutes from './routes/users.routes';
+import purchasesRoutes from './routes/purchases.routes';
 import morgan from 'morgan';
 
 import dotenv from 'dotenv';
@@ -23,6 +24,7 @@ server.use('/providers', providersRoutes);
 server.use('/sales', salesRoutes);
 server.use('/auth', authRoutes);
 server.use('/users', usersRoutes);
+server.use('/purchases', purchasesRoutes);
 
 const PORT = process.env.PORT || 4000;
 

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { ERROR_TOKEN } from '../constants/error';
 
 export const verifyPassword = async (req: Request, res: Response, next: NextFunction) => {
   const { password, userName } = req.body;
@@ -28,19 +29,17 @@ export const verifyPassword = async (req: Request, res: Response, next: NextFunc
 export const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   const isBearer = authorization?.startsWith('Bearer');
-  const token = authorization?.split(' ')[1];
+  const token: any = authorization?.split(' ')[1];
+  const SECRET: any = process.env.SECRET;
 
   try {
-    if (!isBearer && !token) {
-      res.status(401).send({ success: false, error: 'Unauthorized: Bearer token inexistente' });
-      return;
-    }
+    if (!isBearer && !token) throw new Error('Unauthorized');
 
-    const decode = jwt.verify(token || '', process.env.SECRET || '');
+    jwt.verify(token, SECRET);
 
     next();
-  } catch (error) {
-    console.log(error);
-    res.status(401).send({ success: false, error: 'Unauthorized: Bearer token inválido' });
+  } catch (error: any) {
+    console.log(ERROR_TOKEN[error.name][error.message]);
+    next({ success: false, error: ERROR_TOKEN[error.name][error.message] });
   }
 };

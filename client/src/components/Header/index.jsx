@@ -22,6 +22,7 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import { useSelector, useDispatch } from 'react-redux';
 import { ModalLogin } from '../Modals/ModalLogin';
 import { logout } from '../../redux/slices/authSlice';
+import { capitalize } from '../../utils/capitalize';
 
 const HEADER_HEIGHT = 60;
 
@@ -175,7 +176,7 @@ export const HeaderContainer = ({ links }) => {
                     size={20}
                   />
                   <Text weight={500} size='sm' sx={{ lineHeight: 1 }} mr={3}>
-                    {userName[0].toUpperCase() + userName.slice(1)}
+                    {capitalize(userName)}
                   </Text>
                   <BiChevronDown size={12} stroke={1.5} />
                 </Group>
