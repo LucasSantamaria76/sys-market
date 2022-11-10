@@ -1,14 +1,35 @@
 import { Avatar, Button, Container, Stack, Text } from '@mantine/core';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getAllUserAPI } from '../../functions/functionsUser';
+import { setUsers } from '../../redux/slices/usersSlice';
 
 export const Management = () => {
+  const dispatch = useDispatch();
+  const {
+    user: { token },
+  } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const getAndSetUsers = async () => {
+      try {
+        const res = await getAllUserAPI(token);
+        res?.length && dispatch(setUsers(res));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAndSetUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Container size='xl' pt={50} sx={{ display: 'flex', justifyContent: 'center' }}>
       <Button component={Link} to='/operatorManagement' sx={{ height: '300px', width: '300px' }} variant='outline'>
         <Stack sx={{ alignItems: 'center' }}>
           <Avatar size='140px' src='https://sglchile.cl/wp-content/uploads/2022/01/login-usuario-3.png' />
           <Text align='center' size={'lg'} mb={10}>
-            Gestion de operadores
+            Gestion de usuarios
           </Text>
         </Stack>
       </Button>

@@ -1,6 +1,7 @@
 import { Box, Button, Group, Text } from '@mantine/core';
 import { useState } from 'react';
 import { AddProductToProvider } from './AddProductToProvider';
+import { LoadOrder } from './LoadOrder';
 
 const styles = (theme) => ({
   backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
@@ -16,6 +17,7 @@ const styles = (theme) => ({
 
 export const DetailsProvider = ({ provider, refetch }) => {
   const [openModalAddProduct, setOpenModalAddProduct] = useState(false);
+  const [openModalLoadOrder, setOpenModalLoadOrder] = useState(false);
 
   return (
     <>
@@ -28,14 +30,27 @@ export const DetailsProvider = ({ provider, refetch }) => {
           <Text color='teal'>Teléfono: </Text>
           <Text italic>{provider?.phone}</Text>
         </Group>
-        <Button color='pink' onClick={() => setOpenModalAddProduct(true)}>
-          Asociar producto
-        </Button>
+        <Group>
+          <Button color='brand' variant='light' onClick={() => setOpenModalLoadOrder(true)}>
+            cargar pedido
+          </Button>
+          <Button color='brand' onClick={() => setOpenModalAddProduct(true)}>
+            Asociar producto
+          </Button>
+        </Group>
       </Box>
       {openModalAddProduct && (
         <AddProductToProvider
           opened={openModalAddProduct}
           setOpened={setOpenModalAddProduct}
+          providerID={provider?.id}
+          refetch={refetch}
+        />
+      )}
+      {openModalLoadOrder && (
+        <LoadOrder
+          opened={openModalLoadOrder}
+          setOpened={setOpenModalLoadOrder}
           providerID={provider?.id}
           refetch={refetch}
         />

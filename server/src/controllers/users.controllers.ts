@@ -8,4 +8,16 @@ export class UsersControllers {
     const data = await UserService.getAll();
     res.status(data.success ? 200 : 404).send(data.users);
   }
+  public static async delete(req: Request, res: Response) {
+    const data = await UserService.delete(+req.params.id);
+    res.status(data.success ? 200 : 404).send(data?.res);
+  }
+  public static async update(req: Request, res: Response) {
+    const {
+      body,
+      params: { id },
+    } = req;
+    const data = await UserService.update(+id, body);
+    res.status(data.success ? 200 : 404).send(data?.res);
+  }
 }

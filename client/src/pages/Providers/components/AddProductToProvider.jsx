@@ -48,7 +48,11 @@ export const AddProductToProvider = ({ providerID, opened, setOpened, refetch })
     <Modal
       opened={opened}
       onClose={() => setOpened(false)}
-      title='Asociar producto'
+      title={
+        <Text color='brand' size='xl'>
+          Asociar producto
+        </Text>
+      }
       size={'md'}
       overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
       overlayOpacity={0.55}

@@ -8,3 +8,10 @@ export interface IUser {
   password: string;
   role?: RoleStatus;
 }
+
+export interface IPurchase {
+  total: number;
+  paid_purchase: boolean;
+  providerId: number;
+  products: Array<string>;
+}

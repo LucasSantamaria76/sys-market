@@ -6,7 +6,7 @@ export class ControllerAuth {
   constructor() {}
   public static async register(req: Request, res: Response) {
     const data = await AuthService.register(req.body);
-    res.status(data?.success ? 200 : 400).send(data);
+    res.status(data?.success ? 200 : 401).send(data);
   }
   public static async login(req: Request, res: Response) {
     //@ts-ignore

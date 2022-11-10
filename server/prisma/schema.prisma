@@ -22,6 +22,7 @@ model products {
   photoURL    String?
   providers   provider_product[]
   sale        saleItem[]
+  purchase    purchases[]
 }
 
 model providers {
@@ -30,6 +31,7 @@ model providers {
   address      String?            @db.VarChar(50)
   phone        String?            @db.VarChar(15)
   products     provider_product[]
+  purchase     purchases[]
 }
 
 model provider_product {
@@ -56,7 +58,7 @@ model saleItem {
   saleId    Int
   quantity  Decimal  @db.Decimal(10, 2)
   price     Decimal  @db.Decimal(15, 2)
-  product   products @relation(fields: [productId], references: [barcode], onDelete: SetNull)
+  product   products @relation(fields: [productId], references: [barcode], onDelete: Cascade)
   productId String   @db.VarChar(13)
 
   @@id([saleId, productId])
@@ -67,4 +69,14 @@ model user {
   userName String     @unique @db.VarChar(25)
   role     RoleStatus @default(OPERATOR)
   password String     @db.VarChar()
+}
+
+model purchases {
+  id            Int        @id @default(autoincrement())
+  date          DateTime   @db.Date
+  total         Decimal    @db.Decimal(15, 2)
+  paid_purchase Boolean    @db.Boolean
+  provider      providers  @relation(fields: [providerId], references: [id])
+  providerId    Int
+  products      products[]
 }
