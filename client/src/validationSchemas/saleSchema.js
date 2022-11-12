@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as z from 'zod';
+import { barcodeMsg, numberMsg, invalid_type_error, required_error } from './errorMessages';
 
 /* export const initialValues = {
   barcode: '',
@@ -9,11 +10,6 @@ import * as z from 'zod';
   subTotal: 0,
 }; */
 export const labels = ['Código', 'Descripción', 'Cantidad', 'Precio un.', 'SubTotal'];
-
-const barcodeMsg = 'El código de barras debe ser de 13 números';
-const numberMsg = 'El campo debe tener un número positivo';
-const required_error = 'El campo es requerido';
-const invalid_type_error = 'El tipo de dato ingresado no es válido';
 
 export const saleSchema = z.object({
   barcode: z

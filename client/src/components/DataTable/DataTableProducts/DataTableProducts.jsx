@@ -2,11 +2,11 @@ import { ActionIcon, Group, Stack, Tooltip, useMantineTheme } from '@mantine/cor
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import { colProvidersByProduct } from './colProvidersByProduct';
-import { EditProduct } from './EditProduct';
 import { useStylesDataTable } from './../../../styles/useStyles';
 import { IoTrashOutline } from 'react-icons/io5';
 import { TbEdit } from 'react-icons/tb';
 import { columns } from './columns';
+import { EditProduct } from '../../index';
 
 export const DataTableProducts = ({ deleteReg, records }) => {
   const { classes } = useStylesDataTable();
@@ -32,9 +32,9 @@ export const DataTableProducts = ({ deleteReg, records }) => {
           {
             accessor: 'actions',
             title: '',
-            width: 80,
+            width: 60,
             render: (product) => (
-              <Group spacing={4} position='right' noWrap>
+              <Group spacing={4} position='right' noWrap sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Tooltip label='Editar producto' withArrow color={theme.colors.brand[0]}>
                   <ActionIcon
                     color='teal'

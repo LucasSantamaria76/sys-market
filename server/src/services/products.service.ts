@@ -57,6 +57,7 @@ export class ProductsService {
               description: act.product.description,
               price_cost: act.price_cost,
               last_purchase: act.last_purchase,
+              photoURL: act.product.photoURL,
             },
           ]),
         []

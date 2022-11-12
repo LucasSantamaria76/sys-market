@@ -1,20 +1,21 @@
 import { Box, Button, Container, Grid, Text, TextInput } from '@mantine/core';
 import { GrFormClose } from 'react-icons/gr';
 import { BsSearch } from 'react-icons/bs';
-import { useDeleteProviderMutation, useGetProvidersQuery } from '../../redux/apis/providers';
-import { DataTableProviders } from './components/DataTableProviders';
-import { DataTableProviderProducts } from './components/DataTableProviderProducts';
+import { useDeleteProviderMutation, useGetProviderByIdQuery, useGetProvidersQuery } from '../../redux/apis/providers';
+import { DataTableProviderProducts } from '../../components/DataTable/DataTableProviderProducts/DataTableProviderProducts';
 import { useEffect, useState } from 'react';
 import { useDebouncedValue } from '@mantine/hooks';
-import { NewOrEditProvider } from './components/NewOrEditProvider';
 import { openConfirmModal } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
+import { DetailsProvider } from './components/DetailsProvider';
+import { DataTableProviders, NewOrEditProvider } from '../../components';
 
 export const Providers = () => {
   const { data: providers, isLoading } = useGetProvidersQuery();
   const [delProvider, { error: errorDelete }] = useDeleteProviderMutation();
   const [providerId, setProviderId] = useState(1);
   const [openModalNewOrEditProvider, setOpenModalNewOrEditProvider] = useState(false);
+  const { data: detailProvider } = useGetProviderByIdQuery(providerId);
 
   const [query, setQuery] = useState('');
   const [records, setRecords] = useState(providers);
@@ -55,9 +56,11 @@ export const Providers = () => {
 
   return (
     <Container fluid p={20}>
+      <DetailsProvider provider={detailProvider} />
+
       <Grid grow>
         <Grid.Col sm={12} md={3}>
-          <Button variant='light' size='md' fullWidth mb={10} onClick={() => setOpenModalNewOrEditProvider(true)}>
+          <Button variant='light' size='md' fullWidth my={10} onClick={() => setOpenModalNewOrEditProvider(true)}>
             Nuevo proveedor
           </Button>
           <TextInput

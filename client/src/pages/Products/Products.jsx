@@ -4,12 +4,11 @@ import { BsSearch } from 'react-icons/bs';
 import { useDebouncedValue } from '@mantine/hooks';
 import { Center, Loader } from '@mantine/core';
 import { useGetProductsQuery } from '../../redux/apis/productsApi';
-import { DataTableProducts } from './components/DataTableProducts.jsx';
 import { useDeleteProductMutation } from '../../redux/apis/productsApi.js';
 import { showNotification } from '@mantine/notifications';
 import { openConfirmModal } from '@mantine/modals';
-import { NewProduct } from './components/NewProduct';
 import { useGetProvidersQuery } from '../../redux/apis/providers';
+import { DataTableProducts, NewProduct } from '../../components';
 
 export const Products = () => {
   const { data, isLoading } = useGetProductsQuery();

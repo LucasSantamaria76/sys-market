@@ -10,8 +10,7 @@ export class PurchasesControllers {
   }
   public static async getAll(_req: Request, res: Response) {
     const data = await PurchasesService.getAll();
-    console.log(data);
 
-    res.status(data.success ? 20 : 404).send(data);
+    res.status(data.success ? 200 : 404).send(data);
   }
 }

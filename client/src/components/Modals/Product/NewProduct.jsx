@@ -86,6 +86,12 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               hideControls
               description='Ingrese el precio de costo del producto'
               {...FormProduct.getInputProps('cost')}
+              precision={2}
+              decimalSeparator='.'
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '$ '
+              }
               onBlur={() => {
                 FormProduct.setFieldValue(
                   'price',
@@ -129,6 +135,12 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               withAsterisk
               mb={10}
               {...FormProduct.getInputProps('price')}
+              precision={2}
+              decimalSeparator='.'
+              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '$ '
+              }
             />
           </Grid.Col>
           <Grid.Col span={6}>

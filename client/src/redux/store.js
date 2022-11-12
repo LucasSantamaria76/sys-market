@@ -6,6 +6,7 @@ import { saleSlice } from './slices/saleSlice';
 import { salesApi } from './apis/salesApi';
 import { authSlice } from './slices/authSlice';
 import { usersSlice } from './slices/usersSlice';
+import { purchasesSlice } from './slices/purchasesSlice';
 
 const middlewareApis = [productsApi.middleware, providersApi.middleware, salesApi.middleware];
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     sale: saleSlice.reducer,
     auth: authSlice.reducer,
     users: usersSlice.reducer,
+    purchase: purchasesSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(...middlewareApis),
