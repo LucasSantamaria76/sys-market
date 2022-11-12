@@ -4,7 +4,7 @@ import { PurchasesControllers } from './../controllers/purchases.controllers';
 
 const router = Router();
 
-router.post('/', PurchasesControllers.create);
-router.get('/', PurchasesControllers.getAll);
+router.use(verifyToken);
+router.route('/').get(PurchasesControllers.getAll).post(PurchasesControllers.create);
 
 export default router;

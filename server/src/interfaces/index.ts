@@ -13,5 +13,12 @@ export interface IPurchase {
   total: number;
   paid_purchase: boolean;
   providerId: number;
-  products: Array<string>;
+  products: any;
+}
+
+export interface IProductPurchase {
+  barcode: string;
+  benefit: number;
+  cost: number;
+  quantity: number;
 }

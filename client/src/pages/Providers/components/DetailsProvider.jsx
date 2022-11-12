@@ -1,37 +1,29 @@
-import { Box, Button, Group, Text } from '@mantine/core';
+import { Box, Button, Group } from '@mantine/core';
 import { useState } from 'react';
-import { AddProductToProvider } from './AddProductToProvider';
-import { LoadOrder } from './LoadOrder';
+import { AddProductToProvider, LoadOfPurchases } from '../../../components';
+import { styles } from '../../../styles/useStyles';
+import { DataProvider } from './DataProvider';
 
-const styles = (theme) => ({
-  backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-  width: '100%',
+const stylesBox = (theme) => ({
+  ...styles,
   display: 'flex',
   justifyContent: 'space-between',
   gap: '10px',
   padding: theme.spacing.xs,
-  borderRadius: theme.radius.md,
-  boxShadow: '1px 1px 2px rgba(0,0,0,0.75);',
-  border: '1px solid #ccc',
 });
 
 export const DetailsProvider = ({ provider, refetch }) => {
   const [openModalAddProduct, setOpenModalAddProduct] = useState(false);
-  const [openModalLoadOrder, setOpenModalLoadOrder] = useState(false);
+  const [openModalLoadOfPurchases, setOpenModalLoadOfPurchases] = useState(false);
 
   return (
     <>
-      <Box sx={styles}>
+      <Box sx={stylesBox}>
         <Group>
-          <Text color='teal'>Dirección: </Text>
-          <Text italic mr={15}>
-            {provider?.address}
-          </Text>
-          <Text color='teal'>Teléfono: </Text>
-          <Text italic>{provider?.phone}</Text>
+          <DataProvider provider={provider} />
         </Group>
         <Group>
-          <Button color='brand' variant='light' onClick={() => setOpenModalLoadOrder(true)}>
+          <Button color='brand' variant='light' onClick={() => setOpenModalLoadOfPurchases(true)}>
             cargar pedido
           </Button>
           <Button color='brand' onClick={() => setOpenModalAddProduct(true)}>
@@ -47,12 +39,11 @@ export const DetailsProvider = ({ provider, refetch }) => {
           refetch={refetch}
         />
       )}
-      {openModalLoadOrder && (
-        <LoadOrder
-          opened={openModalLoadOrder}
-          setOpened={setOpenModalLoadOrder}
+      {openModalLoadOfPurchases && (
+        <LoadOfPurchases
+          opened={openModalLoadOfPurchases}
+          setOpened={setOpenModalLoadOfPurchases}
           providerID={provider?.id}
-          refetch={refetch}
         />
       )}
     </>

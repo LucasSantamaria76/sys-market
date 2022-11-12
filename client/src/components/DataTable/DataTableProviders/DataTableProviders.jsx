@@ -1,7 +1,7 @@
 import { ActionIcon, Group, Tooltip, useMantineTheme } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { NewOrEditProvider } from './NewOrEditProvider';
+import { NewOrEditProvider } from '../../Modals/NewOrEditProvider/NewOrEditProvider';
 import { IoTrashOutline } from 'react-icons/io5';
 import { TbEdit } from 'react-icons/tb';
 
@@ -63,7 +63,9 @@ export const DataTableProviders = ({ providers, setProviderId, fetching, deleteP
           },
         ]}
         onCellClick={({ record: { id }, columnIndex }) => {
-          columnIndex === 2 && setProviderId(id);
+          if (columnIndex === 2) {
+            setProviderId(id);
+          }
         }}
         fetching={fetching}
         sx={{ zIndex: 0 }}

@@ -18,7 +18,6 @@ import { useGetProductsQuery, useUpdateStockMutation } from '../../redux/apis/pr
 import { GrFormClose } from 'react-icons/gr';
 import { addItem, clearSale } from '../../redux/slices/saleSlice';
 import { showNotification } from '@mantine/notifications';
-import { DataTableSale } from './components/DataTableSale';
 import { Summary } from './components/Summary';
 import { useCreateSaleMutation } from '../../redux/apis/salesApi';
 import { openConfirmModal } from '@mantine/modals';
@@ -26,6 +25,7 @@ import { PAYMENT_METHODS_STRING } from '../../constants/constants';
 import { useDisclosure } from '@mantine/hooks';
 import { SalesOfTheDay } from './components/SalesOfTheDay';
 import { formatPrice } from './../../utils/formatPrice';
+import { DataTableSale } from '../../components';
 
 const notification = (title) => {
   return {
