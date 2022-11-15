@@ -10,7 +10,11 @@ export const cashOutsSlice = createSlice({
       state.listCashOuts = payload;
       return state;
     },
+    addCashOuts: (state, { payload }) => {
+      state.listCashOuts.push(payload);
+      return state;
+    },
   },
 });
 
-export const { setListCashOuts } = cashOutsSlice.actions;
+export const { addCashOuts, setListCashOuts } = cashOutsSlice.actions;
