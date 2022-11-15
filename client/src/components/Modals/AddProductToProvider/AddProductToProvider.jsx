@@ -6,6 +6,7 @@ import { forwardRef, useEffect, useState } from 'react';
 import { useGetProductsQuery } from '../../../redux/apis/productsApi';
 import { useAddProductToProviderMutation } from '../../../redux/apis/providers';
 import { initialValuesAddProduct, providerSchemaAddProduct } from '../../../validationSchemas/providerSchema';
+import { showError, showSuccess } from './../../../utils/notifications';
 
 export const AddProductToProvider = ({ providerID, opened, setOpened, refetch }) => {
   const theme = useMantineTheme();
@@ -68,15 +69,9 @@ export const AddProductToProvider = ({ providerID, opened, setOpened, refetch })
             FormAddProductToProvider.reset();
             refetch();
             setOpened(false);
-            showNotification({
-              title: 'Producto asociado con éxito',
-            });
+            showNotification(showSuccess('Producto asociado con éxito'));
           } else {
-            showNotification({
-              title: 'No se pudo asociar el producto',
-              color: 'red',
-              icon: <GrFormClose />,
-            });
+            showNotification(showError('No se pudo asociar el producto'));
           }
         })}>
         <NumberInput
@@ -94,9 +89,6 @@ export const AddProductToProvider = ({ providerID, opened, setOpened, refetch })
             withAsterisk
             searchable
             clearable
-            /* nothingFound='No options'
-            maxDropdownHeight={290}
-            filter={(value, item) => item.label.toLowerCase().includes(value.toLowerCase().trim())} */
             {...FormAddProductToProvider.getInputProps('barcode')}
           />
         )}

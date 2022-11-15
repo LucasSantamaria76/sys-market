@@ -1,9 +1,15 @@
-import { Avatar, Button, Container, Stack, Text } from '@mantine/core';
+import { Avatar, Button, ScrollArea, Stack, Text, Grid, Container, Center } from '@mantine/core';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllUserAPI } from '../../functions/functionsUser';
 import { setUsers } from '../../redux/slices/usersSlice';
+
+const buttons = [
+  { title: 'Gestion de usuarios', avatar: 'controlUser.png', url: '/operatorManagement' },
+  { title: 'Listado de ventas por fecha', avatar: 'calendar.png', url: '/salesListByDate' },
+  { title: 'Registro de retiro de efectivo', avatar: 'cashRregister.png', url: '/cashOuts' },
+];
 
 export const Management = () => {
   const dispatch = useDispatch();
@@ -24,26 +30,25 @@ export const Management = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Container size='xl' pt={50} sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Button component={Link} to='/operatorManagement' sx={{ height: '300px', width: '300px' }} variant='outline'>
-        <Stack sx={{ alignItems: 'center' }}>
-          <Avatar size='140px' src='https://sglchile.cl/wp-content/uploads/2022/01/login-usuario-3.png' />
-          <Text align='center' size={'lg'} mb={10}>
-            Gestion de usuarios
-          </Text>
-        </Stack>
-      </Button>
-      <Button component={Link} to='/salesListByDate' sx={{ height: '300px', width: '300px' }} variant='outline' ml={50}>
-        <Stack sx={{ alignItems: 'center' }}>
-          <Avatar
-            size='140px'
-            src='https://binaries.templates.cdn.office.net/support/templates/es-es/lt55996843_quantized.png'
-          />
-          <Text align='center' size={'lg'} mb={10}>
-            Listado de ventas por fecha
-          </Text>
-        </Stack>
-      </Button>
-    </Container>
+    <ScrollArea style={{ height: '93vh' }}>
+      <Container size='lg'>
+        <Grid pt={20} justify='center' align='center'>
+          {buttons.map(({ title, avatar, url }, idx) => (
+            <Grid.Col key={idx} span={12} sm={6} md={4}>
+              <Center>
+                <Button component={Link} to={url} sx={{ height: '300px', width: '300px' }} variant='outline'>
+                  <Stack sx={{ alignItems: 'center' }}>
+                    <Avatar size='200px' src={`${process.env.PUBLIC_URL}assets/${avatar}`} />
+                    <Text align='center' size={'lg'} mb={10}>
+                      {title}
+                    </Text>
+                  </Stack>
+                </Button>
+              </Center>
+            </Grid.Col>
+          ))}
+        </Grid>
+      </Container>
+    </ScrollArea>
   );
 };

@@ -3,6 +3,8 @@ import { prisma } from '..';
 import { IPurchase } from '../interfaces';
 import { ERROR_CODES } from './../constants/error';
 import { IProductPurchase } from './../interfaces/index';
+import { ProvidersService } from './provider.service';
+import { CashOutsService } from './cashOuts.service';
 
 export class PurchasesService {
   constructor() {}
@@ -31,7 +33,7 @@ export class PurchasesService {
         await prisma.$transaction([updateProduct, updateProviderProduct]);
       });
 
-      const purchase = await prisma.purchases.create({
+      await prisma.purchases.create({
         data: {
           total,
           paid_purchase,
@@ -45,6 +47,10 @@ export class PurchasesService {
           },
         },
       });
+      if (paid_purchase) {
+        const { nameProvider }: any = await ProvidersService.getById(providerId);
+        await CashOutsService.create({ description: `Pago al Proveedor: ${nameProvider}`, amount: total });
+      }
 
       return { success: true };
     } catch (error: any) {

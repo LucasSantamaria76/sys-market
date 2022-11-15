@@ -4,6 +4,7 @@ import { showNotification } from '@mantine/notifications';
 import { GrFormClose } from 'react-icons/gr';
 import { useCreateProviderMutation, useUpdateProviderMutation } from '../../../redux/apis/providers';
 import { providerSchema } from '../../../validationSchemas/providerSchema';
+import { showError, showSuccess } from './../../../utils/notifications';
 
 export const NewOrEditProvider = ({ opened, setOpened, providerToEdit }) => {
   const theme = useMantineTheme();
@@ -51,17 +52,8 @@ export const NewOrEditProvider = ({ opened, setOpened, providerToEdit }) => {
           if (!error) {
             FormProvider.reset();
             setOpened(false);
-            showNotification({
-              title: 'Proveedor guardado con éxito',
-            });
-          } else {
-            console.log();
-            showNotification({
-              title: 'No se pudo guardar el Proveedor',
-              color: 'red',
-              icon: <GrFormClose />,
-            });
-          }
+            showNotification(showSuccess('Proveedor guardado con éxito'));
+          } else showNotification(showError('No se pudo guardar el Proveedor'));
         })}>
         {Object.keys(initialValues).map((item, idx) => (
           <TextInput

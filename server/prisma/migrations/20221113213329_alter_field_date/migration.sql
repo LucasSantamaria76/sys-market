@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "cashOuts" ALTER COLUMN "date" SET DATA TYPE VARCHAR;

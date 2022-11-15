@@ -1,7 +1,7 @@
 import { Avatar } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
 import { PAYMENT_METHODS_STRING } from '../../../constants/constants';
-import { useStylesDataTable } from '../../../styles/useStyles';
+import { useStylesDataTable } from '../../../styles/styles';
 import { formatPrice } from '../../../utils/formatPrice';
 
 export const DataTableByDate = ({ records, isLoading }) => {
@@ -17,20 +17,21 @@ export const DataTableByDate = ({ records, isLoading }) => {
       noRecordsText='No hay ventas'
       records={records}
       idAccessor='id'
-      width='100%'
-      sx={{ width: '100%' }}
+      sx={{ width: '80vw', fontSize: '1.5rem' }}
       columns={[
         {
           accessor: 'quantity',
           title: 'Cant. Art.',
           textAlignment: 'center',
           width: 120,
+          cellsStyle: { fontSize: '1.2rem' },
           render: ({ items }) => items?.length,
         },
         {
           accessor: 'paymentMethod',
           title: 'Metodo de pagó',
           textAlignment: 'center',
+          cellsStyle: { fontSize: '1.2rem' },
           width: 150,
           render: ({ paymentMethod }) => PAYMENT_METHODS_STRING[paymentMethod],
         },
@@ -38,6 +39,7 @@ export const DataTableByDate = ({ records, isLoading }) => {
           accessor: 'total',
           title: 'Total',
           textAlignment: 'right',
+          cellsStyle: { fontSize: '1.2rem' },
           width: 150,
           render: ({ total }) => formatPrice(total),
         },
@@ -52,7 +54,7 @@ export const DataTableByDate = ({ records, isLoading }) => {
             idAccessor='productId'
             noRecordsText=''
             classNames={classes}
-            sx={{ margin: '10px' }}
+            sx={{ margin: '10px', width: '98%' }}
             records={items}
             columns={[
               {

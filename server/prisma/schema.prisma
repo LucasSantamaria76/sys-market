@@ -80,3 +80,10 @@ model purchases {
   providerId    Int
   products      products[]
 }
+
+model cashOuts {
+  id          String  @id @default(cuid())
+  date        String? @db.VarChar()
+  amount      Decimal @db.Decimal(15, 2)
+  description String  @db.VarChar(50)
+}

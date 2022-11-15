@@ -20,7 +20,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addProductPurchase, resetPurchase, setCashPayment } from '../../../redux/slices/purchasesSlice';
 import { showNotification } from '@mantine/notifications';
 import { useGetProductsOfProviderQuery } from '../../../redux/apis/productsApi';
-import { createPurchase } from '../../../functions/functionPurchses';
+import { showError, showSuccess } from '../../../utils/notifications';
+import { fetchCreate } from '../../../functions/functionAPI';
 
 export const FormProduct = ({ providerID, setOpened }) => {
   const [prodsSel, setProdsSel] = useState([]);
@@ -76,23 +77,18 @@ export const FormProduct = ({ providerID, setOpened }) => {
         providerId: provider,
         products,
       };
-      const res = await createPurchase(body, token);
+      if (!products?.length) {
+        showNotification(showError('No hay productos cargados'));
+        return;
+      }
+      const res = await fetchCreate('/purchases', token, body);
       if (res.success) {
-        showNotification({
-          title: 'Pedido cargado exitosamente ',
-          color: 'tela',
-          icon: <GrFormClose />,
-        });
+        showNotification(showSuccess('Pedido cargado con éxito'));
         dispatch(resetPurchase());
         setOpened(false);
-      } else
-        showNotification({
-          title: 'Error al cargar el pedido',
-          color: 'red',
-          icon: <GrFormClose />,
-        });
+      } else showNotification(showError('Error al cargar el pedido'));
     } catch (error) {
-      console.error(error);
+      showNotification(showError(error));
     }
   };
 
@@ -105,12 +101,7 @@ export const FormProduct = ({ providerID, setOpened }) => {
           if (productExist) {
             dispatch(addProductPurchase(FormPurchase.values));
             FormPurchase.reset();
-          } else
-            showNotification({
-              title: 'Producto inexistente',
-              color: 'red',
-              icon: <GrFormClose />,
-            });
+          } else showNotification(showError('Producto inexistente'));
 
           barcodeRef.current.focus();
         })}>

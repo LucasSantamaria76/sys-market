@@ -2,7 +2,7 @@ import { ActionIcon, Group, Stack, Tooltip, useMantineTheme } from '@mantine/cor
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import { colProvidersByProduct } from './colProvidersByProduct';
-import { useStylesDataTable } from './../../../styles/useStyles';
+import { useStylesDataTable } from '../../../styles/styles';
 import { IoTrashOutline } from 'react-icons/io5';
 import { TbEdit } from 'react-icons/tb';
 import { columns } from './columns';

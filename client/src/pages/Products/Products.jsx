@@ -9,6 +9,7 @@ import { showNotification } from '@mantine/notifications';
 import { openConfirmModal } from '@mantine/modals';
 import { useGetProvidersQuery } from '../../redux/apis/providers';
 import { DataTableProducts, NewProduct } from '../../components';
+import { showError, showSuccess } from './../../utils/notifications';
 
 export const Products = () => {
   const { data, isLoading } = useGetProductsQuery();
@@ -60,14 +61,8 @@ export const Products = () => {
       onConfirm: async () => {
         await delProducts(barcode).unwrap();
         !errorDelete
-          ? showNotification({
-              title: 'Producto elimidado',
-              color: 'teal',
-            })
-          : showNotification({
-              title: 'No se pudo eliminar el producto',
-              color: 'red',
-            });
+          ? showNotification(showSuccess('Producto elimidado'))
+          : showNotification(showError('No se pudo eliminar el producto'));
       },
     });
   };

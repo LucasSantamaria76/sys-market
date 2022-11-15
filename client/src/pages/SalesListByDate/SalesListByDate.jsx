@@ -19,7 +19,7 @@ export const SalesListByDate = () => {
   const handleChange = (day) => setValueDate(dayjs(day).format('YYYY-MM-DD'));
 
   return (
-    <Container size='xl' pt={20} sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Container size='80vw' pt={20} sx={{ display: 'flex', justifyContent: 'center' }}>
       <Stack align={'center'}>
         <DatePicker
           value={valueDate}

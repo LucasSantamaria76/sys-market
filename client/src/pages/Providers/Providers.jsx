@@ -1,5 +1,4 @@
 import { Box, Button, Container, Grid, Text, TextInput } from '@mantine/core';
-import { GrFormClose } from 'react-icons/gr';
 import { BsSearch } from 'react-icons/bs';
 import { useDeleteProviderMutation, useGetProviderByIdQuery, useGetProvidersQuery } from '../../redux/apis/providers';
 import { DataTableProviderProducts } from '../../components/DataTable/DataTableProviderProducts/DataTableProviderProducts';
@@ -9,6 +8,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
 import { DetailsProvider } from './components/DetailsProvider';
 import { DataTableProviders, NewOrEditProvider } from '../../components';
+import { showError, showSuccess } from './../../utils/notifications';
 
 export const Providers = () => {
   const { data: providers, isLoading } = useGetProvidersQuery();
@@ -42,14 +42,8 @@ export const Providers = () => {
       onConfirm: async () => {
         await delProvider(id).unwrap();
         !errorDelete
-          ? showNotification({
-              title: 'Proveedor elimidado con éxito',
-            })
-          : showNotification({
-              title: 'No se pudo eliminar el proveedor',
-              color: 'red',
-              icon: <GrFormClose />,
-            });
+          ? showNotification(showSuccess('Proveedor elimidado con éxito'))
+          : showNotification(showError('No se pudo eliminar el proveedor'));
       },
     });
   };

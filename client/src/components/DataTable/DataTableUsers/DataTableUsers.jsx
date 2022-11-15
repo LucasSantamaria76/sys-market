@@ -5,7 +5,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { TbEdit } from 'react-icons/tb';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteUser } from '../../../redux/slices/usersSlice';
-import { styles } from '../../../styles/useStyles';
+import { styles } from '../../../styles/styles';
 import { capitalize } from '../../../utils/capitalize';
 
 export const DataTableUsers = ({ setUser, token }) => {

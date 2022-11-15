@@ -1,7 +1,7 @@
 import { Box, Button, Group } from '@mantine/core';
 import { useState } from 'react';
 import { AddProductToProvider, LoadOfPurchases } from '../../../components';
-import { styles } from '../../../styles/useStyles';
+import { styles } from '../../../styles/styles';
 import { DataProvider } from './DataProvider';
 
 const stylesBox = (theme) => ({

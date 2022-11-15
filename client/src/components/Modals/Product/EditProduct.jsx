@@ -4,6 +4,7 @@ import { showNotification } from '@mantine/notifications';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { GrFormClose } from 'react-icons/gr';
 import { useUpdateProductMutation } from '../../../redux/apis/productsApi';
+import { showError, showSuccess } from '../../../utils/notifications';
 import { productEditSchema } from './../../../validationSchemas/productSchema';
 
 export const EditProduct = ({
@@ -37,19 +38,10 @@ export const EditProduct = ({
           if (!error) {
             FormEditProduct.reset();
             setOpened(false);
-            showNotification({
-              title: 'Producto modificado con éxito',
-              color: 'teal',
-              icon: <AiOutlineCheck />,
-            });
+            showNotification(showSuccess('Producto modificado con éxito'));
           } else {
             console.log();
-            showNotification({
-              title: 'No se pudo guardar el producto',
-              message: error,
-              color: 'red',
-              icon: <GrFormClose />,
-            });
+            showNotification(showError('No se pudo guardar el producto'));
           }
         })}>
         <TextInput
