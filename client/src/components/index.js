@@ -1,4 +1,6 @@
+export * from './common/BoxList';
 export * from './Header/Header';
+export * from './Footers/FooterSummaryCashOuts/FooterSummaryCashOuts';
 export * from './Form/FromOperador';
 export * from './Modals/ModalLogin';
 export * from './Modals/ModalNewOperator';
@@ -14,3 +16,4 @@ export * from './DataTable/DataTableProviders/DataTableProviders';
 export * from './DataTable/DataTableProviderProducts/DataTableProviderProducts';
 export * from './DataTable/DataTableProducts/DataTableProducts';
 export * from './DataTable/DataTableSale/DataTableSale';
+export * from './DataTable/DataTableCashOuts/DataTableCashOuts';

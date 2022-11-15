@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAPI, updateUserAPI } from '../../functions/functionsUser';
 import { addNewUser, updateUser } from '../../redux/slices/usersSlice';
-import { styles } from '../../styles/useStyles';
-import { FormOperador } from './../../components';
-import { DataTableUsers } from './../../components';
+import { styles } from '../../styles/styles';
+import { FormOperador } from '../../components';
+import { DataTableUsers } from '../../components';
 
 const initialUser = {
   userName: '',

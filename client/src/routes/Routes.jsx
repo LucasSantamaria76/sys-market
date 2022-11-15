@@ -8,8 +8,9 @@ import { Providers } from './../pages/Providers/Providers';
 import { Management } from './../pages/Management/Management';
 import { Home } from './../pages/Home/Home';
 import { SalesListByDate } from './../pages/SalesListByDate/SalesListByDate';
-import { OperatorManagement } from './../pages/Management/OperatorManagement';
+import { OperatorManagement } from '../pages/OperatorManagement/OperatorManagement';
 import { ProtectedRoute } from './ProtectedRoute';
+import { CashOuts } from '../pages/CashOuts/CashOuts';
 
 export const router = createBrowserRouter([
   {
@@ -70,6 +71,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute to='/'>
             <OperatorManagement />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'cashOuts',
+        element: (
+          <ProtectedRoute to='/'>
+            <CashOuts />
           </ProtectedRoute>
         ),
       },

@@ -12,7 +12,7 @@ export const Home = () => {
           justifyContent: 'center',
         }}>
         <BackgroundImage
-          src='https://www.kibrispostasi.com/upload/news/9/90/90724_1578067942.jpg'
+          src={`${process.env.PUBLIC_URL}assets/Market.jpg`}
           radius='lg'
           sx={{ height: '560px' }}></BackgroundImage>
       </Box>

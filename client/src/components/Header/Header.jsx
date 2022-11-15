@@ -14,7 +14,7 @@ import {
   Button,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { BiChevronDown } from 'react-icons/bi';
 import { CiSettings } from 'react-icons/ci';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
@@ -115,6 +115,7 @@ export const HeaderContainer = ({ links }) => {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const navigate = useNavigate();
   const { classes, cx } = useStyles();
   const {
     user: { isAuthenticated, userName, role },
@@ -186,7 +187,10 @@ export const HeaderContainer = ({ links }) => {
               <Menu.Item icon={<CiSettings size={20} color='teal' />}>Configuración de la cuenta</Menu.Item>
               <Menu.Item
                 component='button'
-                onClick={() => setOpenLogin(true)}
+                onClick={() => {
+                  navigate('/');
+                  setOpenLogin(true);
+                }}
                 icon={<HiOutlineSwitchHorizontal size={20} color='teal' />}>
                 Cambiar cuenta
               </Menu.Item>

@@ -14,6 +14,7 @@ import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { useCreateProductMutation } from '../../../redux/apis/productsApi';
 import { productSchema, initialValues } from '../../../validationSchemas/productSchema';
+import { showError, showSuccess } from './../../../utils/notifications';
 
 export const NewProduct = ({ opened, setOpened, providers }) => {
   const theme = useMantineTheme();
@@ -42,16 +43,9 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
             await createProduct(values).unwrap();
             FormProduct.reset();
             setOpened(false);
-            showNotification({
-              title: 'Producto guardado con éxito',
-              color: 'teal',
-            });
+            showNotification(showSuccess('Producto guardado con éxito'));
           } catch (error) {
-            showNotification({
-              title: 'No se pudo guardar el producto',
-              message: 'Error: ' + error.data.error,
-              color: 'red',
-            });
+            showNotification(showError('No se pudo guardar el producto'));
           }
         })}>
         <TextInput

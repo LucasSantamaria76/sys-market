@@ -26,6 +26,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { SalesOfTheDay } from './components/SalesOfTheDay';
 import { formatPrice } from './../../utils/formatPrice';
 import { DataTableSale } from '../../components';
+import { showError, showSuccess } from './../../utils/notifications';
 
 const notification = (title) => {
   return {
@@ -205,17 +206,10 @@ export const Sales = () => {
               async ({ barcode, quantity }) => await updateStock({ barcode, quantity, isReduce: true })
             );
             dispatch(clearSale());
-            showNotification({
-              title: 'Venta realizada con éxito',
-              color: 'teal',
-            });
+            showNotification(showSuccess('Venta realizada con éxito'));
           } catch (err) {
             const errMsg = err?.error || err.data?.error;
-            showNotification({
-              title: 'No se pudo realizar la venta',
-              message: 'Error: ' + errMsg,
-              color: 'red',
-            });
+            showNotification(showError('No se pudo realizar la venta', 'Error: ' + errMsg));
           }
         },
       });
