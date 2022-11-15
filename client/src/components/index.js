@@ -9,6 +9,7 @@ export * from './Modals/NewOrEditProvider/NewOrEditProvider';
 export * from './Modals/AddProductToProvider/AddProductToProvider';
 export * from './Modals/Product/EditProduct';
 export * from './Modals/Product/NewProduct';
+export * from './Modals/NewCashOuts/ModalNewCashOuts';
 export * from './DataTable/DataTableByDate/DataTableByDate';
 export * from './DataTable/DataTableUsers/DataTableUsers';
 export * from './DataTable/DataTablePurchasedProducts/DataTablePurchasedProducts';

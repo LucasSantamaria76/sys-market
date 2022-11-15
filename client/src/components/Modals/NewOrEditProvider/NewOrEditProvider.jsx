@@ -1,7 +1,6 @@
 import { Button, Grid, Modal, Text, TextInput, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { GrFormClose } from 'react-icons/gr';
 import { useCreateProviderMutation, useUpdateProviderMutation } from '../../../redux/apis/providers';
 import { providerSchema } from '../../../validationSchemas/providerSchema';
 import { showError, showSuccess } from './../../../utils/notifications';
@@ -39,7 +38,7 @@ export const NewOrEditProvider = ({ opened, setOpened, providerToEdit }) => {
       onClose={() => setOpened(false)}
       title={`${providerToEdit ? 'Editar' : 'Nuevo'} Proveedor`}
       size={'md'}
-      overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+      overlayColor={theme.colors.gray[2]}
       overlayOpacity={0.55}
       overlayBlur={3}
       shadow={'2px 2px 10px rgba(0,0,0,0.75)'}

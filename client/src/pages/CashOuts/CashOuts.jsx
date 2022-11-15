@@ -1,44 +1,18 @@
-import { createStyles, UnstyledButton, Container, Stack, ScrollArea, Grid } from '@mantine/core';
+import { UnstyledButton, Container, Stack, ScrollArea, Grid, Button } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BoxList, DataTableCashOuts, FooterSummaryCashOuts } from '../../components';
-import { fetchGet } from '../../functions/functionAPI';
-import { setListCashOuts } from '../../redux/slices/cashOutsSlice';
-
-const useStyles = createStyles((theme) => {
-  return {
-    link: {
-      ...theme.fn.focusStyles(),
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textDecoration: 'none',
-      fontSize: theme.fontSizes.xl,
-      color: theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7],
-      padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-      borderRadius: theme.radius.sm,
-      fontWeight: 500,
-
-      '&:hover': {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
-      },
-    },
-
-    linkActive: {
-      '&, &:hover': {
-        backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-        color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
-      },
-    },
-  };
-});
+import { BoxList, DataTableCashOuts, FooterSummaryCashOuts, ModalNewCashOuts } from '../../components';
+import { fetchCreate, fetchGet } from '../../functions/functionAPI';
+import { addCashOuts, setListCashOuts } from '../../redux/slices/cashOutsSlice';
+import { useStylesBtnList } from '../../styles/styles';
+import { showError, showSuccess } from '../../utils/notifications';
 
 export const CashOuts = () => {
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useStylesBtnList();
   const [data, setData] = useState();
+  const [opened, setOpened] = useState(false);
   const [active, setActive] = useState('');
   const dispatch = useDispatch();
   const {
@@ -46,10 +20,10 @@ export const CashOuts = () => {
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    fetchGet('/cashOuts/totalPerDay', token).then((res) =>
-      setData((prev) => (prev = res?.sort((a, b) => b.date.localeCompare(a.date))))
+    fetchGet('/cashOuts/totalPerDay', token).then(({ totalPerDay }) =>
+      setData((prev) => (prev = totalPerDay?.sort((a, b) => b.date.localeCompare(a.date))))
     );
-    fetchGet('/cashOuts', token).then((res) => dispatch(setListCashOuts(res)));
+    fetchGet('/cashOuts', token).then(({ data }) => dispatch(setListCashOuts(data)));
     setActive(dayjs().format('DD-MM-YYYY'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -66,11 +40,26 @@ export const CashOuts = () => {
     </UnstyledButton>
   ));
 
+  const handleSaveOuts = async (values) => {
+    try {
+      const res = await fetchCreate('/cashOuts', token, values);
+      if (res.success) {
+        showNotification(showSuccess('Salida creada con éxito'));
+        dispatch(addCashOuts(res.data));
+      } else showNotification(showError('No se pudo crear la salida'));
+    } catch (error) {
+      showNotification(showError(error));
+    }
+  };
+
   return (
     <ScrollArea style={{ height: '93vh' }}>
       <Container size='lg'>
         <Grid mt={20}>
           <Grid.Col span={12} sm={3}>
+            <Button variant='light' mb={10} fullWidth onClick={() => setOpened(true)}>
+              Nueva salida
+            </Button>
             <BoxList mh='400px'>{links}</BoxList>
           </Grid.Col>
           <Grid.Col span={12} sm={9}>
@@ -78,12 +67,13 @@ export const CashOuts = () => {
               {active.length && (
                 <>
                   <DataTableCashOuts date={active} />
-                  <FooterSummaryCashOuts total={data?.find((item) => item.date === active)._sum} />
+                  <FooterSummaryCashOuts total={data?.find((item) => item.date === active)?._sum} />
                 </>
               )}
             </Stack>
           </Grid.Col>
         </Grid>
+        <ModalNewCashOuts opened={opened} setOpened={setOpened} handleSaveOuts={handleSaveOuts} />
       </Container>
     </ScrollArea>
   );
