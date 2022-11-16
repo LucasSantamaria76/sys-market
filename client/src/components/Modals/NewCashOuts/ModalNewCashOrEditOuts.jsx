@@ -1,25 +1,24 @@
 import { Button, FocusTrap, Grid, Modal, NumberInput, Text, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-import { cashOutsSchema } from './../../../validationSchemas/cashOutsSchema';
+import { cashOutsSchema } from '../../../validationSchemas/cashOutsSchema';
 
-export const ModalNewCashOuts = ({ opened, setOpened, toEdit, handleSaveOuts }) => {
+export const ModalNewCashOrEditOuts = ({ opened, setOpened, toEdit, handleSaveOuts }) => {
   const theme = useMantineTheme();
 
   const initialValues = !toEdit
     ? {
-        description: '',
-        amount: 0,
+        description: 'Retiro',
+        amount: '',
       }
     : {
         description: toEdit.description,
-        amount: toEdit.amount,
+        amount: +toEdit.amount,
       };
 
   const FormCashOuts = useForm({
     initialValues,
     validate: zodResolver(cashOutsSchema),
   });
-
   return (
     <Modal
       opened={opened}
@@ -29,7 +28,7 @@ export const ModalNewCashOuts = ({ opened, setOpened, toEdit, handleSaveOuts }) 
           {toEdit ? 'Editar' : 'Nueva'} salida
         </Title>
       }
-      size='md'
+      size={'md'}
       overlayColor={theme.colors.gray[2]}
       overlayOpacity={0.55}
       overlayBlur={3}
@@ -43,26 +42,21 @@ export const ModalNewCashOuts = ({ opened, setOpened, toEdit, handleSaveOuts }) 
         })}>
         <FocusTrap active={true}>
           <TextInput
-            data-autofocus
             withAsterisk
-            label='Descripción'
+            mb={10}
+            label={'Descripción'}
             description='de la salida'
             {...FormCashOuts.getInputProps('description')}
           />
           <NumberInput
             withAsterisk
+            data-autofocus
             mt={10}
             min={0}
             label='Importe'
             description='de la salida'
-            {...FormCashOuts.getInputProps('amount')}
             hideControls
-            precision={2}
-            decimalSeparator='.'
-            parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-            formatter={(value) =>
-              !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '$ '
-            }
+            {...FormCashOuts.getInputProps('amount')}
           />
         </FocusTrap>
         <Grid justify={'space-between'} align='flex-end' mt={10}>

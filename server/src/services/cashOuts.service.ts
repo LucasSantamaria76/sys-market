@@ -41,20 +41,38 @@ export class CashOutsService {
   }
   public static async getTotalPerDay() {
     try {
-      const totalPerDay = await prisma.cashOuts.groupBy({
+      const data = await prisma.cashOuts.groupBy({
         by: ['date'],
         _sum: {
           amount: true,
         },
       });
 
-      return { success: true, totalPerDay };
+      return { success: true, data };
     } catch (error: any) {
-      console.log('error: ', error);
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al hacer la consulta',
         fields: error.meta?.target,
+      };
+    }
+  }
+  public static async update({ amount, description, id }: Prisma.cashOutsCreateInput) {
+    try {
+      const data = await prisma.cashOuts.update({
+        where: { id },
+        data: {
+          description,
+          amount,
+        },
+      });
+      console.log(data);
+      return { success: true, data };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: ERROR_CODES[error.code] || 'Hubo un error al actualizar la consulta',
+        flields: error.meta?.target,
       };
     }
   }

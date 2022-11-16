@@ -1,11 +1,11 @@
 import { Button, Grid, Modal, NumberInput, Text, TextInput, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { AiOutlineCheck } from 'react-icons/ai';
-import { GrFormClose } from 'react-icons/gr';
 import { useUpdateProductMutation } from '../../../redux/apis/productsApi';
 import { showError, showSuccess } from '../../../utils/notifications';
 import { productEditSchema } from './../../../validationSchemas/productSchema';
+import { MdOutlineAttachMoney } from 'react-icons/md';
+import { AiOutlinePercentage } from 'react-icons/ai';
 
 export const EditProduct = ({
   opened,
@@ -60,6 +60,7 @@ export const EditProduct = ({
               mb={10}
               label='Costo'
               description='Ingrese el precio de costo del producto'
+              icon={<MdOutlineAttachMoney size={17} color='black' />}
               {...FormEditProduct.getInputProps('cost')}
               onBlur={() => {
                 FormEditProduct.setFieldValue(
@@ -75,6 +76,7 @@ export const EditProduct = ({
               hideControls
               mb={10}
               label='Porcentaje'
+              icon={<AiOutlinePercentage size={17} color='black' />}
               description='Ingrese el porcentaje de ganancia para éste producto'
               {...FormEditProduct.getInputProps('benefit')}
               onBlur={() => {
@@ -93,6 +95,7 @@ export const EditProduct = ({
               hideControls
               mb={10}
               label='Precio'
+              icon={<MdOutlineAttachMoney size={17} color='black' />}
               description='Ingrese el precio del producto'
               {...FormEditProduct.getInputProps('price')}
             />

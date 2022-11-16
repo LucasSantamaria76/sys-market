@@ -1,4 +1,4 @@
-import { Button, Modal, PasswordInput, Text, TextInput } from '@mantine/core';
+import { Button, Modal, PasswordInput, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useForm } from '@mantine/form';
 import { loginAPI } from './../../functions/functionsUser';
@@ -7,6 +7,7 @@ import { login } from '../../redux/slices/authSlice';
 
 export const ModalLogin = ({ opened, setOpened }) => {
   const dispatch = useDispatch();
+  const theme = useMantineTheme();
   const FormLogin = useForm({
     initialValues: {
       userName: '',
@@ -25,9 +26,9 @@ export const ModalLogin = ({ opened, setOpened }) => {
         setOpened(false);
       }}
       title={
-        <Text color='teal' size='xl'>
+        <Title color={theme.primaryColor} order={3}>
           Iniciar sesión
-        </Text>
+        </Title>
       }
       centered>
       <form
@@ -57,9 +58,8 @@ export const ModalLogin = ({ opened, setOpened }) => {
           mb={10}
           {...FormLogin.getInputProps('password')}
         />
-        <Button type='submit' variant='outline' mt={15} /* loading={isLoading} */>
+        <Button type='submit' variant='outline' mt={15}>
           Iniciar sesión
-          {/* {isLoading ? 'guardando...' : 'Guardar producto'} */}
         </Button>
       </form>
     </Modal>
