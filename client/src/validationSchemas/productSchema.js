@@ -5,10 +5,10 @@ import { required_error, invalid_type_error, numberMsg, barcodeMsg, min4 } from 
 export const initialValues = {
   barcode: '',
   description: '',
-  price: 0,
-  stock: 0,
+  price: '',
+  stock: '',
   benefit: 40,
-  cost: 0,
+  cost: '',
   photoURL: '',
   providerID: '',
 };

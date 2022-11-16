@@ -14,7 +14,13 @@ export const cashOutsSlice = createSlice({
       state.listCashOuts.push(payload);
       return state;
     },
+    updateCashOuts: (state, { payload: { id, ...restOut } }) => {
+      const out = state.listCashOuts.find((out) => out.id === id);
+      const idx = state.listCashOuts.indexOf(out);
+      state.listCashOuts[idx] = { ...out, ...restOut };
+      return state;
+    },
   },
 });
 
-export const { addCashOuts, setListCashOuts } = cashOutsSlice.actions;
+export const { addCashOuts, setListCashOuts, updateCashOuts } = cashOutsSlice.actions;

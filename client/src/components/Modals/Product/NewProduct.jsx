@@ -12,6 +12,8 @@ import {
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { AiOutlinePercentage } from 'react-icons/ai';
+import { MdOutlineAttachMoney } from 'react-icons/md';
 import { useCreateProductMutation } from '../../../redux/apis/productsApi';
 import { productSchema, initialValues } from '../../../validationSchemas/productSchema';
 import { showError, showSuccess } from './../../../utils/notifications';
@@ -78,14 +80,9 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               mb={10}
               label='Costo'
               hideControls
+              icon={<MdOutlineAttachMoney size={17} color='black' />}
               description='Ingrese el precio de costo del producto'
               {...FormProduct.getInputProps('cost')}
-              precision={2}
-              decimalSeparator='.'
-              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-              formatter={(value) =>
-                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '$ '
-              }
               onBlur={() => {
                 FormProduct.setFieldValue(
                   'price',
@@ -97,6 +94,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               withAsterisk
               mb={10}
               label='Porcentaje'
+              icon={<AiOutlinePercentage size={17} color='black' />}
               description='Ingrese el porcentaje de ganancia para éste producto'
               hideControls
               {...FormProduct.getInputProps('benefit')}
@@ -128,13 +126,8 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               hideControls
               withAsterisk
               mb={10}
+              icon={<MdOutlineAttachMoney size={17} color='black' />}
               {...FormProduct.getInputProps('price')}
-              precision={2}
-              decimalSeparator='.'
-              parser={(value) => value.replace(/\$\s?|(,*)/g, '')}
-              formatter={(value) =>
-                !Number.isNaN(parseFloat(value)) ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '$ '
-              }
             />
           </Grid.Col>
           <Grid.Col span={6}>

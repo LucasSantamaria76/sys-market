@@ -22,3 +22,15 @@ export const fetchGet = async (endPoint, token) => {
   });
   return await res.json();
 };
+
+export const fetchUpdate = async (endPoint, token, body) => {
+  const res = await fetch(`${baseURL}${endPoint}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
+  return await res.json();
+};

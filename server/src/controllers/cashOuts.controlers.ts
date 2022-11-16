@@ -15,4 +15,8 @@ export class CashOutsControler {
     const data = await CashOutsService.getTotalPerDay();
     res.status(data.success ? 200 : 400).send(data);
   }
+  public static async update(req: Request, res: Response) {
+    const data = await CashOutsService.update(req.body);
+    res.status(data.success ? 200 : 400).send(data);
+  }
 }
