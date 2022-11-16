@@ -57,13 +57,12 @@ export class CashOutsService {
       };
     }
   }
-  public static async update({ amount, description, id }: Prisma.cashOutsCreateInput) {
+  public static async update(id: string, body: Prisma.cashOutsCreateInput) {
     try {
       const data = await prisma.cashOuts.update({
         where: { id },
         data: {
-          description,
-          amount,
+          ...body,
         },
       });
       console.log(data);
@@ -73,6 +72,19 @@ export class CashOutsService {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al actualizar la consulta',
         flields: error.meta?.target,
+      };
+    }
+  }
+  public static async delete(id: string) {
+    try {
+      const data = await prisma.cashOuts.delete({ where: { id } });
+      console.log(data);
+      return { success: true, data };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: ERROR_CODES[error?.code] || 'Hubo un error al eliminar la salida',
+        fields: error.meta?.target,
       };
     }
   }

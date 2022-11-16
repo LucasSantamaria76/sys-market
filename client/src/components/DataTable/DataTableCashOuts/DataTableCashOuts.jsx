@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useStylesDataTable } from '../../../styles/styles';
 import { formatPrice } from '../../../utils/formatPrice';
 
-export const DataTableCashOuts = ({ date = '', HandleToEdit }) => {
+export const DataTableCashOuts = ({ date = '', HandleToEdit, handleDelete }) => {
   const { classes } = useStylesDataTable();
   const theme = useMantineTheme();
   const { listCashOuts } = useSelector((state) => state.cashOuts);
@@ -69,6 +69,7 @@ export const DataTableCashOuts = ({ date = '', HandleToEdit }) => {
                     color='red'
                     onClick={async (e) => {
                       e.stopPropagation();
+                      handleDelete(out);
                     }}>
                     <IoTrashOutline size={17} />
                   </ActionIcon>

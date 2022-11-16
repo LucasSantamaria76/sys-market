@@ -16,7 +16,11 @@ export class CashOutsControler {
     res.status(data.success ? 200 : 400).send(data);
   }
   public static async update(req: Request, res: Response) {
-    const data = await CashOutsService.update(req.body);
+    const data = await CashOutsService.update(req.params.id, req.body);
+    res.status(data.success ? 200 : 400).send(data);
+  }
+  public static async delete(req: Request, res: Response) {
+    const data = await CashOutsService.delete(req.params.id);
     res.status(data.success ? 200 : 400).send(data);
   }
 }

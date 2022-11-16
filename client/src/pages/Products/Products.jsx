@@ -10,6 +10,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { useGetProvidersQuery } from '../../redux/apis/providers';
 import { DataTableProducts, NewProduct } from '../../components';
 import { showError, showSuccess } from './../../utils/notifications';
+import { confirmModal } from '../../utils/confirmModal';
 
 export const Products = () => {
   const { data, isLoading } = useGetProductsQuery();
@@ -52,19 +53,14 @@ export const Products = () => {
   }, [debouncedQuery, data?.products]);
 
   const deleteProduct = ({ barcode, description }) => {
-    openConfirmModal({
-      centered: true,
-      title: 'Producto seleccionado para borrar: ',
-      children: <Text size='lg'>{description}</Text>,
-      labels: { confirm: 'Borrar Producto', cancel: 'No borrar' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
+    openConfirmModal(
+      confirmModal('Borrar el siguiente producto:', description, async () => {
         await delProducts(barcode).unwrap();
         !errorDelete
           ? showNotification(showSuccess('Producto elimidado'))
           : showNotification(showError('No se pudo eliminar el producto'));
-      },
-    });
+      })
+    );
   };
 
   const handleClick = () => {
