@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Container, TextInput, Box, Text, Grid, Button } from '@mantine/core';
+import { useEffect, useState, lazy, Suspense } from 'react';
+import { Container, TextInput, Box, Grid, Button, Loader, Center, MediaQuery } from '@mantine/core';
 import { BsSearch } from 'react-icons/bs';
 import { useDebouncedValue } from '@mantine/hooks';
-import { Center, Loader } from '@mantine/core';
 import { useGetProductsQuery } from '../../redux/apis/productsApi';
 import { useDeleteProductMutation } from '../../redux/apis/productsApi.js';
 import { showNotification } from '@mantine/notifications';
 import { openConfirmModal } from '@mantine/modals';
 import { useGetProvidersQuery } from '../../redux/apis/providers';
-import { DataTableProducts, NewProduct } from '../../components';
+import { DataTableProducts } from '../../components';
 import { showError, showSuccess } from './../../utils/notifications';
+import { confirmModal } from '../../utils/confirmModal';
+
+const ModalNewProduct = lazy(() => import('../../Modals/ModalNewProduct.jsx'));
 
 export const Products = () => {
   const { data, isLoading } = useGetProductsQuery();
@@ -52,19 +54,14 @@ export const Products = () => {
   }, [debouncedQuery, data?.products]);
 
   const deleteProduct = ({ barcode, description }) => {
-    openConfirmModal({
-      centered: true,
-      title: 'Producto seleccionado para borrar: ',
-      children: <Text size='lg'>{description}</Text>,
-      labels: { confirm: 'Borrar Producto', cancel: 'No borrar' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
+    openConfirmModal(
+      confirmModal('Borrar el siguiente producto:', description, async () => {
         await delProducts(barcode).unwrap();
         !errorDelete
           ? showNotification(showSuccess('Producto elimidado'))
           : showNotification(showError('No se pudo eliminar el producto'));
-      },
-    });
+      })
+    );
   };
 
   const handleClick = () => {
@@ -94,13 +91,17 @@ export const Products = () => {
           <Loader variant='bars' />
         </Center>
       ) : (
-        <Box sx={{ height: '80vh' }}>
-          <DataTableProducts records={records} deleteReg={deleteProduct} />
-        </Box>
+        <MediaQuery query='(max-width: 768px)' styles={{ height: '75vh' }}>
+          <Box sx={{ height: '80vh' }}>
+            <DataTableProducts records={records} deleteReg={deleteProduct} />
+          </Box>
+        </MediaQuery>
       )}
-      {openModalNewProduct && (
-        <NewProduct opened={openModalNewProduct} setOpened={setOpenModalNewProduct} providers={providers} />
-      )}
+      <Suspense fallback={<Loader variant='bars' />}>
+        {openModalNewProduct && (
+          <ModalNewProduct opened={openModalNewProduct} setOpened={setOpenModalNewProduct} providers={providers} />
+        )}
+      </Suspense>
     </Container>
   );
 };

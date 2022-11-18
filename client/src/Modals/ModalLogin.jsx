@@ -1,9 +1,9 @@
 import { Button, Modal, PasswordInput, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { useForm } from '@mantine/form';
-import { loginAPI } from './../../functions/functionsUser';
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/slices/authSlice';
+import { login } from '../redux/slices/authSlice';
+import { fetchApi } from '../API/fetchApi';
 
 export const ModalLogin = ({ opened, setOpened }) => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ export const ModalLogin = ({ opened, setOpened }) => {
       centered>
       <form
         onSubmit={FormLogin.onSubmit(async (values) => {
-          const res = await loginAPI(values);
+          const res = await fetchApi({ endPoint: '/auth/login', method: 'POST', body: values });
           if (res.success) {
             FormLogin.reset();
             setOpened(false);

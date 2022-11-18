@@ -1,11 +1,13 @@
 import { Box, Button, Container, Grid } from '@mantine/core';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUserAPI, updateUserAPI } from '../../functions/functionsUser';
 import { addNewUser, updateUser } from '../../redux/slices/usersSlice';
 import { styles } from '../../styles/styles';
 import { FormOperador } from '../../components';
 import { DataTableUsers } from '../../components';
+import { fetchApi } from './../../API/fetchApi';
+import { showSuccess } from '../../utils/notifications';
+import { showNotification } from '@mantine/notifications';
 
 const initialUser = {
   userName: '',
@@ -21,15 +23,22 @@ export const OperatorManagement = () => {
 
   const handleAddOrUpdate = async () => {
     if (!user.id) {
-      const data = await registerUserAPI(user);
+      const data = await fetchApi({
+        endPoint: '/auth/register',
+        method: 'POST',
+        body: { ...user, password: '123456' },
+      });
       if (data.user) {
+        showNotification(showSuccess(`Se creo el usuario ${data.user.userName}`));
         dispatch(addNewUser(data.user));
         setUser(initialUser);
       }
     } else {
-      const data = await updateUserAPI(token, user);
+      const { id, ...restUser } = user;
+      const data = await fetchApi({ endPoint: `/users/${id}`, method: 'PUT', token, body: restUser });
       if (data) {
         dispatch(updateUser(data));
+        showNotification(showSuccess(`Se actualizo el usuario ${data.userName}`));
         setUser(initialUser);
       }
     }

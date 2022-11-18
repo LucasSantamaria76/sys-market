@@ -9,7 +9,7 @@ import { CashOutsService } from './cashOuts.service';
 export class PurchasesService {
   constructor() {}
 
-  public static async create(data: IPurchase) {
+  static async create(data: IPurchase) {
     const { products, providerId, total, paid_purchase } = data;
 
     try {
@@ -62,7 +62,7 @@ export class PurchasesService {
       };
     }
   }
-  public static async getAll() {
+  static async getAll() {
     try {
       const purchases = await prisma.purchases.findMany({
         include: {

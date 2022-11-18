@@ -1,13 +1,13 @@
 import { Button, Grid, Modal, NumberInput, Text, TextInput, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { useUpdateProductMutation } from '../../../redux/apis/productsApi';
-import { showError, showSuccess } from '../../../utils/notifications';
-import { productEditSchema } from './../../../validationSchemas/productSchema';
 import { MdOutlineAttachMoney } from 'react-icons/md';
 import { AiOutlinePercentage } from 'react-icons/ai';
+import { productEditSchema } from '../validationSchemas/productSchema';
+import { useUpdateProductMutation } from '../redux/apis/productsApi';
+import { showError, showSuccess } from '../utils/notifications';
 
-export const EditProduct = ({
+const ModalEditProduct = ({
   opened,
   setOpened,
   product: { barcode, description, price, stock, benefit, cost, photoURL },
@@ -134,3 +134,4 @@ export const EditProduct = ({
     </Modal>
   );
 };
+export default ModalEditProduct;

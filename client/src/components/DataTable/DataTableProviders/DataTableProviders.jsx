@@ -1,19 +1,23 @@
-import { ActionIcon, Group, Tooltip, useMantineTheme } from '@mantine/core';
+import { Group, Loader } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
-import { useEffect, useState } from 'react';
-import { NewOrEditProvider } from '../../Modals/NewOrEditProvider/NewOrEditProvider';
-import { IoTrashOutline } from 'react-icons/io5';
-import { TbEdit } from 'react-icons/tb';
+import { lazy, useEffect, useState, Suspense } from 'react';
+import { ButtonActions } from '../..';
+
+const ModalNewOrEditProvider = lazy(() => import('../../../Modals/ModalNewOrEditProvider'));
 
 export const DataTableProviders = ({ providers, setProviderId, fetching, deleteProvider }) => {
   const [records, setRecords] = useState([]);
   const [providerToEdit, setProviderToEdit] = useState(null);
   const [openModalNewOrEditProvider, setOpenModalNewOrEditProvider] = useState(false);
-  const theme = useMantineTheme();
 
   useEffect(() => {
     setRecords(providers);
   }, [providers]);
+
+  const handleEdit = (record) => {
+    setProviderToEdit(record);
+    setOpenModalNewOrEditProvider(true);
+  };
 
   return (
     <>
@@ -32,27 +36,8 @@ export const DataTableProviders = ({ providers, setProviderId, fetching, deleteP
             width: 80,
             render: (record) => (
               <Group spacing={4} position='right' noWrap>
-                <Tooltip label='Eliminar proveedor' withArrow color={theme.colors.brand[0]}>
-                  <ActionIcon
-                    color='red'
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      deleteProvider(record);
-                    }}>
-                    <IoTrashOutline size={17} />
-                  </ActionIcon>
-                </Tooltip>
-                <Tooltip label='Editar proveedor' withArrow color={theme.colors.brand[0]}>
-                  <ActionIcon
-                    color='teal'
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      setProviderToEdit(record);
-                      setOpenModalNewOrEditProvider(true);
-                    }}>
-                    <TbEdit size={17} />
-                  </ActionIcon>
-                </Tooltip>
+                <ButtonActions label='Eliminar proveedor' isEdit={false} action={() => deleteProvider(record)} />
+                <ButtonActions label='Editar proveedor' isEdit={true} action={() => handleEdit(record)} />
               </Group>
             ),
           },
@@ -70,13 +55,15 @@ export const DataTableProviders = ({ providers, setProviderId, fetching, deleteP
         fetching={fetching}
         sx={{ zIndex: 0 }}
       />
-      {openModalNewOrEditProvider && (
-        <NewOrEditProvider
-          opened={openModalNewOrEditProvider}
-          setOpened={setOpenModalNewOrEditProvider}
-          providerToEdit={providerToEdit}
-        />
-      )}
+      <Suspense fallback={<Loader variant='bars' />}>
+        {openModalNewOrEditProvider && (
+          <ModalNewOrEditProvider
+            opened={openModalNewOrEditProvider}
+            setOpened={setOpenModalNewOrEditProvider}
+            providerToEdit={providerToEdit}
+          />
+        )}
+      </Suspense>
     </>
   );
 };

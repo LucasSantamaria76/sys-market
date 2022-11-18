@@ -14,22 +14,20 @@ export const saleSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, { payload }) => {
-      const prodExists = state.items?.find((item) => item.barcode === payload.barcode);
-      if (!!prodExists?.barcode) {
-        const idx = state.items.indexOf(prodExists);
-        const quantity = state.items[idx].quantity + Number(payload.quantity);
+      const idxProducts = state.items?.findIndex((item) => item.barcode === payload.barcode);
+      if (idxProducts >= 0) {
+        const quantity = state.items[idxProducts].quantity + Number(payload.quantity);
         const subTotal = quantity * Number(payload.price);
-        state.items[idx] = { ...state.items[idx], quantity, subTotal };
+        state.items[idxProducts] = { ...state.items[idxProducts], quantity, subTotal };
         return;
       }
       state.items.push(payload);
     },
     ModifyQuantity: (state, { payload }) => {
-      const prod = state.items?.find((item) => item.barcode === payload.barcode);
-      const idx = state.items.indexOf(prod);
+      const idxProd = state.items?.findIndex((item) => item.barcode === payload.barcode);
       const quantity = Number(payload.quantity);
-      const subTotal = quantity * Number(prod.price);
-      state.items[idx] = { ...state.items[idx], quantity, subTotal };
+      const subTotal = quantity * Number(payload.price);
+      state.items[idxProd] = { ...state.items[idxProd], quantity, subTotal };
     },
     deleteItem: (state, { payload }) => {
       state.items = state.items.filter((item) => item.barcode !== payload);

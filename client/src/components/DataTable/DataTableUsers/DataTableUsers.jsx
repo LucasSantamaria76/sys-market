@@ -1,12 +1,16 @@
-import { ActionIcon, Group, Tooltip } from '@mantine/core';
+import { Group } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import { DataTable } from 'mantine-datatable';
 import { useState, useEffect } from 'react';
-import { IoTrashOutline } from 'react-icons/io5';
-import { TbEdit } from 'react-icons/tb';
 import { useSelector, useDispatch } from 'react-redux';
+import { fetchApi } from '../../../API/fetchApi';
 import { deleteUser } from '../../../redux/slices/usersSlice';
 import { styles } from '../../../styles/styles';
 import { capitalize } from '../../../utils/capitalize';
+import { showError, showSuccess } from '../../../utils/notifications';
+import { openConfirmModal } from '@mantine/modals';
+import { confirmModal } from './../../../utils/confirmModal';
+import { ButtonActions } from '../..';
 
 export const DataTableUsers = ({ setUser, token }) => {
   const { users } = useSelector((state) => state.users);
@@ -14,6 +18,25 @@ export const DataTableUsers = ({ setUser, token }) => {
   const dispatch = useDispatch();
 
   useEffect(() => setRecords(users), [users]);
+
+  const handleDeleteUser = (user) => {
+    const Administrators = users.filter((user) => user.role === 'ADMIN');
+    if (user.role !== 'ADMIN' || Administrators.length > 1) {
+      openConfirmModal(
+        confirmModal('Borrar el usuario:', user.userName, async () => {
+          try {
+            const res = await fetchApi({ endPoint: `/users/${user.id}`, method: 'DELETE', token });
+            if (res.success) {
+              showNotification(showSuccess(`Usuario ${user.userName} fue eliminado`));
+              dispatch(deleteUser(user.id));
+            } else showNotification(showError('No se pudo eliminar el usuario'));
+          } catch (error) {
+            showNotification(showError(error));
+          }
+        })
+      );
+    } else showNotification(showError('La aplicación no puede quedar sin usuarios administradores'));
+  };
 
   return (
     <DataTable
@@ -45,26 +68,8 @@ export const DataTableUsers = ({ setUser, token }) => {
           width: 60,
           render: (user) => (
             <Group spacing={4} position='right' noWrap>
-              <Tooltip label='Editar producto' withArrow color='cyan'>
-                <ActionIcon
-                  color='cyan'
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    setUser(user);
-                  }}>
-                  <TbEdit size={17} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label='Eliminar producto' withArrow color='red'>
-                <ActionIcon
-                  color='red'
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    dispatch(deleteUser({ id: user.id, token }));
-                  }}>
-                  <IoTrashOutline size={17} />
-                </ActionIcon>
-              </Tooltip>
+              <ButtonActions label='Editar usuario' isEdit={true} action={() => setUser(user)} />
+              <ButtonActions label='Eliminar usuario' isEdit={false} action={() => handleDeleteUser(user)} />
             </Group>
           ),
         },

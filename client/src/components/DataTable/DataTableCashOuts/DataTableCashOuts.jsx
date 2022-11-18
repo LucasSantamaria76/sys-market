@@ -1,15 +1,13 @@
-import { ActionIcon, Box, Group, Tooltip, useMantineTheme } from '@mantine/core';
+import { Box, Group } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { IoTrashOutline } from 'react-icons/io5';
-import { TbEdit } from 'react-icons/tb';
 import { useSelector } from 'react-redux';
 import { useStylesDataTable } from '../../../styles/styles';
 import { formatPrice } from '../../../utils/formatPrice';
+import { ButtonActions } from '../..';
 
-export const DataTableCashOuts = ({ date = '', HandleToEdit }) => {
+export const DataTableCashOuts = ({ date = '', HandleToEdit, handleDelete }) => {
   const { classes } = useStylesDataTable();
-  const theme = useMantineTheme();
   const { listCashOuts } = useSelector((state) => state.cashOuts);
   const [records, setRecords] = useState([]);
 
@@ -54,25 +52,8 @@ export const DataTableCashOuts = ({ date = '', HandleToEdit }) => {
             width: '10%',
             render: (out) => (
               <Group spacing={4} position='right' noWrap sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Tooltip label='Editar salida' withArrow color={theme.colors.brand[4]}>
-                  <ActionIcon
-                    color='teal'
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      HandleToEdit(out);
-                    }}>
-                    <TbEdit size={17} />
-                  </ActionIcon>
-                </Tooltip>
-                <Tooltip label='Eliminar salida' withArrow color={theme.colors.red[7]}>
-                  <ActionIcon
-                    color='red'
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                    }}>
-                    <IoTrashOutline size={17} />
-                  </ActionIcon>
-                </Tooltip>
+                <ButtonActions label='Editar salida' isEdit={true} action={() => HandleToEdit(out)} />
+                <ButtonActions label='Eliminar salida' isEdit={false} action={() => handleDelete(out)} />
               </Group>
             ),
           },

@@ -18,7 +18,10 @@ export const purchasesSlice = createSlice({
       return state;
     },
     addProductPurchase: (state, { payload }) => {
-      state.purchase.products.push(payload);
+      const idxPurchase = state.purchase.products.findIndex((item) => item.barcode === payload.barcode);
+      idxPurchase >= 0
+        ? (state.purchase.products[idxPurchase].quantity += payload.quantity)
+        : state.purchase.products.push(payload);
       state.purchase.total += payload.cost * payload.quantity;
       return state;
     },

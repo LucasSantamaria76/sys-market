@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
       <ModalsProvider>
-        <NotificationsProvider position='top-center' zIndex={2077} autoClose={2000}>
+        <NotificationsProvider zIndex={2077} autoClose={2000}>
           <RouterProvider router={router} />
         </NotificationsProvider>
       </ModalsProvider>

@@ -1,14 +1,13 @@
 import { Avatar, Button, Grid, Group, Modal, NumberInput, Select, Text, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { GrFormClose } from 'react-icons/gr';
 import { forwardRef, useEffect, useState } from 'react';
-import { useGetProductsQuery } from '../../../redux/apis/productsApi';
-import { useAddProductToProviderMutation } from '../../../redux/apis/providers';
-import { initialValuesAddProduct, providerSchemaAddProduct } from '../../../validationSchemas/providerSchema';
-import { showError, showSuccess } from './../../../utils/notifications';
+import { useGetProductsQuery } from '../redux/apis/productsApi';
+import { useAddProductToProviderMutation } from '../redux/apis/providers';
+import { initialValuesAddProduct, providerSchemaAddProduct } from '../validationSchemas/providerSchema';
+import { showError, showSuccess } from '../utils/notifications';
 
-export const AddProductToProvider = ({ providerID, opened, setOpened, refetch }) => {
+const ModalAddProductToProvider = ({ providerID, opened, setOpened, refetch }) => {
   const theme = useMantineTheme();
   const [products, setProducts] = useState([]);
   const { data } = useGetProductsQuery();
@@ -97,7 +96,7 @@ export const AddProductToProvider = ({ providerID, opened, setOpened, refetch })
             * Campos requeridos
           </Text>
           <Grid justify={'flex-end'} m={10}>
-            <Button type='button' color='pink' mr={10} onClick={() => setOpened(false)}>
+            <Button type='button' color='pink' mr={10} mb={5} onClick={() => setOpened(false)}>
               Cancelar
             </Button>
             <Button type='submit' variant='light' loading={isLoading}>
@@ -109,3 +108,4 @@ export const AddProductToProvider = ({ providerID, opened, setOpened, refetch })
     </Modal>
   );
 };
+export default ModalAddProductToProvider;

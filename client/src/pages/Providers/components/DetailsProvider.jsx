@@ -1,8 +1,10 @@
-import { Box, Button, Group } from '@mantine/core';
-import { useState } from 'react';
-import { AddProductToProvider, LoadOfPurchases } from '../../../components';
+import { Box, Button, Group, Loader } from '@mantine/core';
+import { lazy, Suspense, useState } from 'react';
 import { styles } from '../../../styles/styles';
 import { DataProvider } from './DataProvider';
+
+const ModalAddProductToProvider = lazy(() => import('../../../Modals/ModalAddProductToProvider'));
+const ModalLoadOfPurchases = lazy(() => import('../../../Modals/ModalLoadOfPurchases'));
 
 const stylesBox = (theme) => ({
   ...styles,
@@ -31,21 +33,25 @@ export const DetailsProvider = ({ provider, refetch }) => {
           </Button>
         </Group>
       </Box>
-      {openModalAddProduct && (
-        <AddProductToProvider
-          opened={openModalAddProduct}
-          setOpened={setOpenModalAddProduct}
-          providerID={provider?.id}
-          refetch={refetch}
-        />
-      )}
-      {openModalLoadOfPurchases && (
-        <LoadOfPurchases
-          opened={openModalLoadOfPurchases}
-          setOpened={setOpenModalLoadOfPurchases}
-          providerID={provider?.id}
-        />
-      )}
+      <Suspense fallback={<Loader variant='bars' />}>
+        {openModalAddProduct && (
+          <ModalAddProductToProvider
+            opened={openModalAddProduct}
+            setOpened={setOpenModalAddProduct}
+            providerID={provider?.id}
+            refetch={refetch}
+          />
+        )}
+      </Suspense>
+      <Suspense fallback={<Loader variant='bars' />}>
+        {openModalLoadOfPurchases && (
+          <ModalLoadOfPurchases
+            opened={openModalLoadOfPurchases}
+            setOpened={setOpenModalLoadOfPurchases}
+            providerID={provider?.id}
+          />
+        )}
+      </Suspense>
     </>
   );
 };

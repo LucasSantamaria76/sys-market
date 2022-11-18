@@ -15,13 +15,13 @@ import {
 import { useForm, zodResolver } from '@mantine/form';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { GrFormClose } from 'react-icons/gr';
-import { initialValuesProductPurchase, purchasesSchema } from '../../../validationSchemas/purchasesSchema';
+import { initialValuesProductPurchase, purchasesSchema } from '../../validationSchemas/purchasesSchema';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProductPurchase, resetPurchase, setCashPayment } from '../../../redux/slices/purchasesSlice';
+import { addProductPurchase, resetPurchase, setCashPayment } from '../../redux/slices/purchasesSlice';
 import { showNotification } from '@mantine/notifications';
-import { useGetProductsOfProviderQuery } from '../../../redux/apis/productsApi';
-import { showError, showSuccess } from '../../../utils/notifications';
-import { fetchCreate } from '../../../functions/functionAPI';
+import { useGetProductsOfProviderQuery } from '../../redux/apis/productsApi';
+import { showError, showSuccess } from '../../utils/notifications';
+import { fetchApi } from '../../API/fetchApi';
 
 export const FormProduct = ({ providerID, setOpened }) => {
   const [prodsSel, setProdsSel] = useState([]);
@@ -81,7 +81,7 @@ export const FormProduct = ({ providerID, setOpened }) => {
         showNotification(showError('No hay productos cargados'));
         return;
       }
-      const res = await fetchCreate('/purchases', token, body);
+      const res = await fetchApi({ endPoint: '/purchases', token, body });
       if (res.success) {
         showNotification(showSuccess('Pedido cargado con éxito'));
         dispatch(resetPurchase());
