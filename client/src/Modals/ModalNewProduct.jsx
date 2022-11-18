@@ -14,11 +14,11 @@ import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { AiOutlinePercentage } from 'react-icons/ai';
 import { MdOutlineAttachMoney } from 'react-icons/md';
-import { useCreateProductMutation } from '../../../redux/apis/productsApi';
-import { productSchema, initialValues } from '../../../validationSchemas/productSchema';
-import { showError, showSuccess } from './../../../utils/notifications';
+import { useCreateProductMutation } from '../redux/apis/productsApi';
+import { productSchema, initialValues } from '../validationSchemas/productSchema';
+import { showError, showSuccess } from '../utils/notifications';
 
-export const NewProduct = ({ opened, setOpened, providers }) => {
+const ModalNewProduct = ({ opened, setOpened, providers }) => {
   const theme = useMantineTheme();
   const [createProduct, { isLoading }] = useCreateProductMutation();
 
@@ -55,7 +55,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
           mb={10}
           label='Descripción'
           data-autofocus
-          description='Ingrese la descripción del producto'
+          description='del producto'
           {...FormProduct.getInputProps('description')}
         />
         <Grid>
@@ -64,7 +64,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               withAsterisk
               mb={10}
               label='Código de barras'
-              description='Ingrese el código de barras que se encuentra en el producto'
+              description='que se encuentra en el producto'
               onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
               {...FormProduct.getInputProps('barcode')}
               onBlur={() => {
@@ -81,7 +81,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               label='Costo'
               hideControls
               icon={<MdOutlineAttachMoney size={17} color='black' />}
-              description='Ingrese el precio de costo del producto'
+              description='del producto'
               {...FormProduct.getInputProps('cost')}
               onBlur={() => {
                 FormProduct.setFieldValue(
@@ -95,7 +95,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
               mb={10}
               label='Porcentaje'
               icon={<AiOutlinePercentage size={17} color='black' />}
-              description='Ingrese el porcentaje de ganancia para éste producto'
+              description='de ganancia para éste producto'
               hideControls
               {...FormProduct.getInputProps('benefit')}
               onBlur={() => {
@@ -122,7 +122,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
           <Grid.Col span={6}>
             <NumberInput
               label='Precio'
-              description='Ingrese el precio del producto'
+              description='de venta del producto'
               hideControls
               withAsterisk
               mb={10}
@@ -133,7 +133,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
           <Grid.Col span={6}>
             <NumberInput
               label='Stock'
-              description='Ingrese el stock del producto'
+              description='del producto'
               hideControls
               mb={10}
               {...FormProduct.getInputProps('stock')}
@@ -163,7 +163,7 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
             * Campos requeridos
           </Text>
           <Grid justify={'flex-end'} m={10}>
-            <Button type='button' color='pink' mr={10} onClick={() => setOpened(false)}>
+            <Button type='button' color='pink' mr={10} mb={5} onClick={() => setOpened(false)}>
               Cancelar
             </Button>
             <Button type='submit' variant='light' loading={isLoading}>
@@ -175,3 +175,5 @@ export const NewProduct = ({ opened, setOpened, providers }) => {
     </Modal>
   );
 };
+
+export default ModalNewProduct;

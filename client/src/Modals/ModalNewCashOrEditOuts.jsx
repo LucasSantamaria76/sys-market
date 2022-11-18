@@ -1,8 +1,8 @@
 import { Button, FocusTrap, Grid, Modal, NumberInput, Text, TextInput, Title, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
-import { cashOutsSchema } from '../../../validationSchemas/cashOutsSchema';
+import { cashOutsSchema } from '../validationSchemas/cashOutsSchema';
 
-export const ModalNewCashOrEditOuts = ({ opened, setOpened, toEdit, handleSaveOuts }) => {
+const ModalNewCashOrEditOuts = ({ opened, setOpened, toEdit, handleSaveOuts }) => {
   const theme = useMantineTheme();
 
   const initialValues = !toEdit
@@ -76,3 +76,5 @@ export const ModalNewCashOrEditOuts = ({ opened, setOpened, toEdit, handleSaveOu
     </Modal>
   );
 };
+
+export default ModalNewCashOrEditOuts;

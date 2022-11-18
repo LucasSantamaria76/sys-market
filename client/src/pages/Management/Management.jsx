@@ -2,8 +2,8 @@ import { Avatar, Button, ScrollArea, Stack, Text, Grid, Container, Center } from
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllUserAPI } from '../../functions/functionsUser';
 import { setUsers } from '../../redux/slices/usersSlice';
+import { fetchApi } from './../../API/fetchApi';
 
 const buttons = [
   { title: 'Gestion de usuarios', avatar: 'controlUser.png', url: '/operatorManagement' },
@@ -20,15 +20,14 @@ export const Management = () => {
   useEffect(() => {
     const getAndSetUsers = async () => {
       try {
-        const res = await getAllUserAPI(token);
+        const res = await fetchApi({ endPoint: '/users', token });
         res?.length && dispatch(setUsers(res));
       } catch (error) {
         console.log(error);
       }
     };
     getAndSetUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, token]);
   return (
     <ScrollArea style={{ height: '93vh' }}>
       <Container size='lg'>

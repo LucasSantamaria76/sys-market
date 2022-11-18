@@ -5,7 +5,7 @@ import { ERROR_CODES } from '../constants/error';
 export class ProductsService {
   constructor() {}
 
-  public static async create(prod: any, providerID: number) {
+  static async create(prod: any, providerID: number) {
     try {
       const product = await prisma.products.create({
         data: {
@@ -36,7 +36,7 @@ export class ProductsService {
       };
     }
   }
-  public static async getProductsByProvider(providerID: any) {
+  static async getProductsByProvider(providerID: any) {
     try {
       const data = await prisma.providers.findUnique({
         where: { id: providerID },
@@ -73,7 +73,7 @@ export class ProductsService {
       };
     }
   }
-  public static async getAll() {
+  static async getAll() {
     try {
       const products = await prisma.products.findMany({
         include: {
@@ -95,7 +95,7 @@ export class ProductsService {
       };
     }
   }
-  public static async getByBarcode(barcode: string) {
+  static async getByBarcode(barcode: string) {
     try {
       const product = await prisma.products.findUnique({
         where: { barcode },
@@ -114,7 +114,7 @@ export class ProductsService {
       };
     }
   }
-  public static async update(barcode: string, prod: Prisma.productsCreateInput) {
+  static async update(barcode: string, prod: Prisma.productsCreateInput) {
     try {
       const result = await prisma.products.update({
         where: { barcode },
@@ -132,7 +132,7 @@ export class ProductsService {
     }
   }
 
-  public static async updateStock(barcode: string, isReduce: boolean, quantity: number) {
+  static async updateStock(barcode: string, isReduce: boolean, quantity: number) {
     const operation = isReduce ? { decrement: quantity } : { increment: quantity };
     try {
       const result = await prisma.products.updateMany({
@@ -152,7 +152,7 @@ export class ProductsService {
       };
     }
   }
-  public static async delete(barcode: string) {
+  static async delete(barcode: string) {
     try {
       const result = await prisma.products.delete({
         where: { barcode },

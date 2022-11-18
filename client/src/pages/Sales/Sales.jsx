@@ -2,13 +2,13 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Group,
+  MediaQuery,
   Modal,
   Select,
-  Stack,
   Text,
   TextInput,
+  Title,
   Tooltip,
   useMantineTheme,
 } from '@mantine/core';
@@ -27,6 +27,7 @@ import { SalesOfTheDay } from './components/SalesOfTheDay';
 import { formatPrice } from './../../utils/formatPrice';
 import { DataTableSale } from '../../components';
 import { showError, showSuccess } from './../../utils/notifications';
+import { SalesData } from './components/SalesData';
 
 const notification = (title) => {
   return {
@@ -181,13 +182,14 @@ export const Sales = () => {
   const addSale = (paymentMethod) => {
     items.length &&
       openConfirmModal({
-        title: 'Está seguro de cerrar la venta',
+        title: (
+          <Title color={theme.primaryColor} order={2}>
+            Está seguro de cerrar la venta
+          </Title>
+        ),
         centered: true,
         children: (
-          <Stack>
-            <Text color='red' size='md'>{`Total de la venta: ${formatPrice(summary.total)}`}</Text>
-            <Text color='red' size='md'>{`Metodo de pagó: ${PAYMENT_METHODS_STRING[paymentMethod]}`}</Text>
-          </Stack>
+          <SalesData total={formatPrice(summary.total)} paymentMethod={PAYMENT_METHODS_STRING[paymentMethod]} />
         ),
         labels: { confirm: 'Confirmar', cancel: 'Cancelar' },
         onConfirm: async () => {
@@ -216,9 +218,9 @@ export const Sales = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', height: '100vh' }} onClick={handleTableClick}>
-      <Container size='xl' sx={{ padding: 0 }}>
-        <Group mb={10}>
+    <>
+      <Box sx={{ width: '100%', height: '100vh', padding: '10px' }} onClick={handleTableClick}>
+        <Group my={10}>
           <TextInput
             ref={barcodeRef}
             label='Código'
@@ -279,14 +281,16 @@ export const Sales = () => {
             Ventas del día
           </Button>
         </Group>
-        <Box sx={{ height: '70vh', border: '1px solid #ccc' }}>
-          <DataTableSale records={items} onClick={handleTableClick} />
-        </Box>
+        <MediaQuery query='(max-width: 778px)' styles={{ height: '50vh' }}>
+          <Box sx={{ height: '65vh', border: '1px solid #ccc' }}>
+            <DataTableSale records={items} onClick={handleTableClick} />
+          </Box>
+        </MediaQuery>
         <Summary summary={summary} onClick={handleTableClick} addSale={addSale} loading={isLoading} />
-      </Container>
-      <Modal opened={opened} onClose={close} size='90%' centered overflow='inside'>
-        <SalesOfTheDay />
-      </Modal>
-    </Box>
+        <Modal opened={opened} onClose={close} size='90%' centered overflow='inside'>
+          <SalesOfTheDay />
+        </Modal>
+      </Box>
+    </>
   );
 };

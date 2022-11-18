@@ -1,11 +1,11 @@
 import { Button, Grid, Modal, Text, TextInput, useMantineTheme } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { useCreateProviderMutation, useUpdateProviderMutation } from '../../../redux/apis/providers';
-import { providerSchema } from '../../../validationSchemas/providerSchema';
-import { showError, showSuccess } from './../../../utils/notifications';
+import { useCreateProviderMutation, useUpdateProviderMutation } from '../redux/apis/providers';
+import { providerSchema } from '../validationSchemas/providerSchema';
+import { showError, showSuccess } from '../utils/notifications';
 
-export const NewOrEditProvider = ({ opened, setOpened, providerToEdit }) => {
+const ModalNewOrEditProvider = ({ opened, setOpened, providerToEdit }) => {
   const theme = useMantineTheme();
   const [createProvider, { isLoading: isLoadingNew, error: errorNew }] = useCreateProviderMutation();
   const [updateProvider, { isLoading: isLoadingEdit, error: errorEdit }] = useUpdateProviderMutation();
@@ -82,3 +82,5 @@ export const NewOrEditProvider = ({ opened, setOpened, providerToEdit }) => {
     </Modal>
   );
 };
+
+export default ModalNewOrEditProvider;

@@ -5,7 +5,7 @@ import { ERROR_CODES } from '../constants/error';
 
 export class CashOutsService {
   constructor() {}
-  public static async create({ amount, description, date }: Prisma.cashOutsCreateInput) {
+  static async create({ amount, description, date }: Prisma.cashOutsCreateInput) {
     try {
       const data = await prisma.cashOuts.create({
         data: {
@@ -25,7 +25,7 @@ export class CashOutsService {
       };
     }
   }
-  public static async getAll() {
+  static async getAll() {
     try {
       const data = await prisma.cashOuts.findMany({});
 
@@ -39,7 +39,7 @@ export class CashOutsService {
       };
     }
   }
-  public static async getTotalPerDay() {
+  static async getTotalPerDay() {
     try {
       const data = await prisma.cashOuts.groupBy({
         by: ['date'],
@@ -57,7 +57,7 @@ export class CashOutsService {
       };
     }
   }
-  public static async update(id: string, body: Prisma.cashOutsCreateInput) {
+  static async update(id: string, body: Prisma.cashOutsCreateInput) {
     try {
       const data = await prisma.cashOuts.update({
         where: { id },
@@ -75,7 +75,7 @@ export class CashOutsService {
       };
     }
   }
-  public static async delete(id: string) {
+  static async delete(id: string) {
     try {
       const data = await prisma.cashOuts.delete({ where: { id } });
       console.log(data);

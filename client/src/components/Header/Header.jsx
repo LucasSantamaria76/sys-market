@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  createStyles,
   Header,
   Container,
   Group,
@@ -20,103 +19,18 @@ import { CiSettings } from 'react-icons/ci';
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { useSelector, useDispatch } from 'react-redux';
-import { ModalLogin } from '../Modals/ModalLogin';
 import { logout } from '../../redux/slices/authSlice';
 import { capitalize } from '../../utils/capitalize';
-
-const HEADER_HEIGHT = 60;
-
-const useStyles = createStyles((theme) => ({
-  root: {
-    position: 'relative',
-    zIndex: 99,
-    boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.75)',
-    borderBottom: 0,
-  },
-
-  dropdown: {
-    position: 'absolute',
-    top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 99,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
-    overflow: 'hidden',
-
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '100%',
-  },
-
-  links: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  link: {
-    display: 'block',
-    lineHeight: 1,
-    padding: '15px',
-    borderRadius: theme.radius.sm,
-    textDecoration: 'none',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    fontSize: theme.fontSizes.md,
-    fontWeight: 500,
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-    },
-
-    [theme.fn.smallerThan('sm')]: {
-      borderRadius: 0,
-      padding: theme.spacing.md,
-    },
-  },
-
-  linkActive: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
-      color: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color,
-    },
-  },
-  user: {
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-    borderRadius: theme.radius.sm,
-    transition: 'background-color 100ms ease',
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-    },
-
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none',
-    },
-  },
-}));
+import { ModalLogin } from '../../Modals/ModalLogin';
+import { useStylesHeaher } from '../../styles/styles';
+import { HEADER_HEIGHT } from '../../constants/constants';
 
 export const HeaderContainer = ({ links }) => {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
   const navigate = useNavigate();
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useStylesHeaher();
   const {
     user: { isAuthenticated, userName, role },
   } = useSelector((state) => state.auth);

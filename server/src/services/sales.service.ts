@@ -1,19 +1,11 @@
 import { prisma } from '..';
 import { ERROR_CODES } from '../constants/error';
 import dayjs from 'dayjs';
-/*import utc from 'dayjs/plugin/utc';
-import 'dayjs/locale/es';
-import timezone from 'dayjs/plugin/timezone';
-
-dayjs.locale('es-AR');
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('America/Buenos_Aires'); */
 
 export class SalesService {
   constructor() {}
 
-  public static async create(paymentMethod: number, total: number, items: any[]) {
+  static async create(paymentMethod: number, total: number, items: any[]) {
     try {
       const sale = await prisma.sale.create({
         data: {
@@ -44,7 +36,7 @@ export class SalesService {
     }
   }
 
-  public static async getAll(date?: any) {
+  static async getAll(date?: any) {
     const dateFormat = dayjs(date).toDate().toISOString();
     const dateFilter = date
       ? {

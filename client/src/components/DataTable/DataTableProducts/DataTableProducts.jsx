@@ -1,23 +1,28 @@
-import { ActionIcon, Group, Stack, Tooltip, useMantineTheme } from '@mantine/core';
+import { Group, Loader, Stack } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { colProvidersByProduct } from './colProvidersByProduct';
 import { useStylesDataTable } from '../../../styles/styles';
-import { IoTrashOutline } from 'react-icons/io5';
-import { TbEdit } from 'react-icons/tb';
 import { columns } from './columns';
-import { EditProduct } from '../../index';
+import { ButtonActions } from '../..';
+
+const ModalEditProduct = lazy(() => import('../../../Modals/ModalEditProduct.jsx'));
 
 export const DataTableProducts = ({ deleteReg, records }) => {
   const { classes } = useStylesDataTable();
   const [data, setData] = useState();
   const [product, setProduct] = useState();
   const [openModalEditProduct, setOpenModalEditProduct] = useState(false);
-  const theme = useMantineTheme();
 
   useEffect(() => {
     setData(records);
   }, [records]);
+
+  const handleEdit = (product) => {
+    setOpenModalEditProduct(true);
+    setProduct(product);
+  };
+
   return (
     <>
       <DataTable
@@ -35,27 +40,8 @@ export const DataTableProducts = ({ deleteReg, records }) => {
             width: 60,
             render: (product) => (
               <Group spacing={4} position='right' noWrap sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Tooltip label='Editar producto' withArrow color={theme.colors.brand[0]}>
-                  <ActionIcon
-                    color='teal'
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      setOpenModalEditProduct(true);
-                      setProduct(product);
-                    }}>
-                    <TbEdit size={17} />
-                  </ActionIcon>
-                </Tooltip>
-                <Tooltip label='Eliminar producto' withArrow color={theme.colors.brand[0]}>
-                  <ActionIcon
-                    color='red'
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      deleteReg(product);
-                    }}>
-                    <IoTrashOutline size={17} />
-                  </ActionIcon>
-                </Tooltip>
+                <ButtonActions label='Editar producto' isEdit={true} action={() => handleEdit(product)} />
+                <ButtonActions label='Eliminar producto' isEdit={false} action={() => deleteReg(product)} />
               </Group>
             ),
           },
@@ -77,9 +63,11 @@ export const DataTableProducts = ({ deleteReg, records }) => {
           ),
         }}
       />
-      {openModalEditProduct && (
-        <EditProduct opened={openModalEditProduct} setOpened={setOpenModalEditProduct} product={product} />
-      )}
+      <Suspense fallback={<Loader variant='bars' />}>
+        {openModalEditProduct && (
+          <ModalEditProduct opened={openModalEditProduct} setOpened={setOpenModalEditProduct} product={product} />
+        )}
+      </Suspense>
     </>
   );
 };

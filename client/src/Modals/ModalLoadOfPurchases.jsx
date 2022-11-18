@@ -1,12 +1,12 @@
 import { Grid, Modal, Text, useMantineTheme } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { useGetProductsQuery } from '../../../redux/apis/productsApi';
-import { FormProduct } from './FormProduct';
-import { DataTablePurchasedProducts } from './../../index';
+import { DataTablePurchasedProducts } from '../components/index';
 import { useEffect } from 'react';
-import { setProvider } from '../../../redux/slices/purchasesSlice';
+import { useGetProductsQuery } from '../redux/apis/productsApi';
+import { setProvider } from '../redux/slices/purchasesSlice';
+import { FormProduct } from '../components/Form/FormProduct';
 
-export const LoadOfPurchases = ({ providerID, opened, setOpened }) => {
+const ModalLoadOfPurchases = ({ providerID, opened, setOpened }) => {
   const theme = useMantineTheme();
   const { data } = useGetProductsQuery();
   const { purchase } = useSelector((state) => state.purchase);
@@ -43,3 +43,4 @@ export const LoadOfPurchases = ({ providerID, opened, setOpened }) => {
     </Modal>
   );
 };
+export default ModalLoadOfPurchases;

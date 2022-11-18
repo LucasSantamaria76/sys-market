@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { deleteUserAPI } from '../../functions/functionsUser';
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -22,17 +21,8 @@ export const usersSlice = createSlice({
       return state;
     },
 
-    deleteUser: (state, { payload: { id, token } }) => {
-      const user = state.users.find((user) => user.id === id);
-      if (user) {
-        const isAdministrator = user.role === 'ADMIN';
-        const Administrators = state.users.filter((user) => user.role === 'ADMIN');
-        if (!isAdministrator || Administrators.length > 1) {
-          deleteUserAPI(id, token);
-          state.users = state.users.filter((user) => user.id !== id);
-          return;
-        }
-      }
+    deleteUser: (state, { payload }) => {
+      state.users = state.users.filter((user) => user.id !== payload);
       return state;
     },
   },

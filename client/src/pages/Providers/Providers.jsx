@@ -1,14 +1,17 @@
-import { Box, Button, Container, Grid, Text, TextInput } from '@mantine/core';
+import { Box, Button, Container, Grid, Loader, TextInput } from '@mantine/core';
 import { BsSearch } from 'react-icons/bs';
 import { useDeleteProviderMutation, useGetProviderByIdQuery, useGetProvidersQuery } from '../../redux/apis/providers';
 import { DataTableProviderProducts } from '../../components/DataTable/DataTableProviderProducts/DataTableProviderProducts';
-import { useEffect, useState } from 'react';
+import { lazy, useEffect, useState, Suspense } from 'react';
 import { useDebouncedValue } from '@mantine/hooks';
 import { openConfirmModal } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
 import { DetailsProvider } from './components/DetailsProvider';
-import { DataTableProviders, NewOrEditProvider } from '../../components';
+import { DataTableProviders } from '../../components';
 import { showError, showSuccess } from './../../utils/notifications';
+import { confirmModal } from '../../utils/confirmModal';
+
+const ModalNewOrEditProvider = lazy(() => import('../../Modals/ModalNewOrEditProvider'));
 
 export const Providers = () => {
   const { data: providers, isLoading } = useGetProvidersQuery();
@@ -33,19 +36,14 @@ export const Providers = () => {
   }, [debouncedQuery, providers]);
 
   const deleteProvider = ({ id, nameProvider }) => {
-    openConfirmModal({
-      centered: true,
-      title: 'Proveedor seleccionado para borrar: ',
-      children: <Text size='lg'>{nameProvider}</Text>,
-      labels: { confirm: 'Borrar Proveedor', cancel: 'No borrar' },
-      confirmProps: { color: 'red' },
-      onConfirm: async () => {
+    openConfirmModal(
+      confirmModal('Borrar el siguiente proveedor:', nameProvider, async () => {
         await delProvider(id).unwrap();
         !errorDelete
           ? showNotification(showSuccess('Proveedor elimidado con éxito'))
           : showNotification(showError('No se pudo eliminar el proveedor'));
-      },
-    });
+      })
+    );
   };
 
   return (
@@ -80,9 +78,11 @@ export const Providers = () => {
           </Box>
         </Grid.Col>
       </Grid>
-      {openModalNewOrEditProvider && (
-        <NewOrEditProvider opened={openModalNewOrEditProvider} setOpened={setOpenModalNewOrEditProvider} />
-      )}
+      <Suspense fallback={<Loader variant='bars' />}>
+        {openModalNewOrEditProvider && (
+          <ModalNewOrEditProvider opened={openModalNewOrEditProvider} setOpened={setOpenModalNewOrEditProvider} />
+        )}
+      </Suspense>
     </Container>
   );
 };

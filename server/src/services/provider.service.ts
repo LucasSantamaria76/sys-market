@@ -17,7 +17,7 @@ export class ProvidersService {
       return { error: ERROR_CODES[error.code], fields: error.meta?.target };
     }
   }
-  public static async getAll() {
+  static async getAll() {
     try {
       const providers = await prisma.providers.findMany({
         include: {
@@ -30,7 +30,7 @@ export class ProvidersService {
       return { error: ERROR_CODES[error.code], fields: error.meta?.target };
     }
   }
-  public static async getById(id: number) {
+  static async getById(id: number) {
     try {
       const provider = await prisma.providers.findUnique({
         where: { id },
@@ -44,7 +44,7 @@ export class ProvidersService {
       return { error: ERROR_CODES[error.code], fields: error.meta?.target };
     }
   }
-  public static async update(id: number, prov: any) {
+  static async update(id: number, prov: any) {
     try {
       const result = await prisma.providers.update({
         where: { id },
@@ -56,7 +56,7 @@ export class ProvidersService {
       return { error: ERROR_CODES[error.code], fields: error.meta?.target };
     }
   }
-  public static async addProduct(id: number, prod: any) {
+  static async addProduct(id: number, prod: any) {
     try {
       const result = await prisma.providers.update({
         where: { id },
@@ -82,7 +82,7 @@ export class ProvidersService {
     }
   }
 
-  public static async delete(id: number) {
+  static async delete(id: number) {
     try {
       const result = await prisma.providers.delete({
         where: { id },

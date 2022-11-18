@@ -1,9 +1,9 @@
-import { ActionIcon, Avatar, Box, Tooltip } from '@mantine/core';
+import { Avatar, Box } from '@mantine/core';
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { IoTrashOutline } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
 import { removeProductPurchase } from '../../../redux/slices/purchasesSlice';
+import { ButtonActions } from '../..';
 
 export const DataTablePurchasedProducts = ({ records, products }) => {
   const [listProduct, setListProduct] = useState([]);
@@ -20,6 +20,7 @@ export const DataTablePurchasedProducts = ({ records, products }) => {
             description: prod.description,
             photoURL: prod.photoURL,
             quantity: item.quantity,
+            cost: item.cost,
           };
         })
       );
@@ -40,7 +41,7 @@ export const DataTablePurchasedProducts = ({ records, products }) => {
         {
           accessor: 'photoURL',
           title: '',
-          width: 40,
+          width: '5%',
           visibleMediaQuery: () => `(min-width: 450px)`,
           render: ({ photoURL }) => (
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -53,33 +54,26 @@ export const DataTablePurchasedProducts = ({ records, products }) => {
           title: 'Descripción',
           titleStyle: { textAlign: 'center' },
           textAlignment: 'left',
-          width: 120,
+          width: '80%',
           ellipsis: true,
         },
         {
           accessor: 'quantity',
           title: 'Cantidad',
           textAlignment: 'center',
-          width: 30,
+          width: '10%',
         },
         {
           accessor: 'actions',
           title: '',
-          width: 30,
+          width: '5%',
           textAlignment: 'center',
           render: (product) => (
-            <Tooltip label='Eliminar producto' withArrow color='red'>
-              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <ActionIcon
-                  color='red'
-                  onClick={async (e) => {
-                    e.stopPropagation();
-                    dispatch(removeProductPurchase(product));
-                  }}>
-                  <IoTrashOutline size={17} />
-                </ActionIcon>
-              </Box>
-            </Tooltip>
+            <ButtonActions
+              label='Eliminar producto'
+              isEdit={false}
+              action={() => dispatch(removeProductPurchase(product))}
+            />
           ),
         },
       ]}
