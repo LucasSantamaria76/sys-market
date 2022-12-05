@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const cashOuts_controlers_1 = require("../controllers/cashOuts.controlers");
+const middleware_1 = require("../middleware");
+const router = (0, express_1.Router)();
+router.use(middleware_1.verifyToken);
+router.route('/').get(cashOuts_controlers_1.CashOutsControler.getAll).post(cashOuts_controlers_1.CashOutsControler.create);
+router.put('/:id', cashOuts_controlers_1.CashOutsControler.update);
+router.route('/totalPerDay').get(cashOuts_controlers_1.CashOutsControler.getTotalPerDay);
+router.delete('/:id', cashOuts_controlers_1.CashOutsControler.delete);
+exports.default = router;

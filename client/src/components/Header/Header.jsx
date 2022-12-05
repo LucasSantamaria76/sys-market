@@ -24,11 +24,13 @@ import { capitalize } from '../../utils/capitalize';
 import { ModalLogin } from '../../Modals/ModalLogin';
 import { useStylesHeaher } from '../../styles/styles';
 import { HEADER_HEIGHT } from '../../constants/constants';
+import { ModalSettingUser } from './../../Modals/ModalSettingUser';
 
 export const HeaderContainer = ({ links }) => {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
   const [userMenuOpened, setUserMenuOpened] = useState(false);
+  const [openModalSettingUser, setOpenModalSettingUser] = useState(false);
   const navigate = useNavigate();
   const { classes, cx } = useStylesHeaher();
   const {
@@ -98,7 +100,12 @@ export const HeaderContainer = ({ links }) => {
               </UnstyledButton>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item icon={<CiSettings size={20} color='teal' />}>Configuración de la cuenta</Menu.Item>
+              <Menu.Item
+                component='button'
+                onClick={() => setOpenModalSettingUser(true)}
+                icon={<CiSettings size={20} color='teal' />}>
+                Cambiar password de la cuenta
+              </Menu.Item>
               <Menu.Item
                 component='button'
                 onClick={() => {
@@ -121,7 +128,10 @@ export const HeaderContainer = ({ links }) => {
             Iniciar sesión
           </Button>
         )}
-        <ModalLogin opened={openLogin} setOpened={setOpenLogin} />
+        {openLogin && <ModalLogin opened={openLogin} setOpened={setOpenLogin} />}
+        {openModalSettingUser && (
+          <ModalSettingUser opened={openModalSettingUser} setOpened={setOpenModalSettingUser} userName={userName} />
+        )}
       </Container>
     </Header>
   );

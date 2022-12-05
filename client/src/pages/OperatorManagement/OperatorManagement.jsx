@@ -6,7 +6,7 @@ import { styles } from '../../styles/styles';
 import { FormOperador } from '../../components';
 import { DataTableUsers } from '../../components';
 import { fetchApi } from './../../API/fetchApi';
-import { showSuccess } from '../../utils/notifications';
+import { showError, showSuccess } from '../../utils/notifications';
 import { showNotification } from '@mantine/notifications';
 
 const initialUser = {
@@ -28,19 +28,20 @@ export const OperatorManagement = () => {
         method: 'POST',
         body: { ...user, password: '123456' },
       });
-      if (data.user) {
+      if (data.success) {
         showNotification(showSuccess(`Se creo el usuario ${data.user.userName}`));
         dispatch(addNewUser(data.user));
         setUser(initialUser);
-      }
+      } else showNotification(showError(data.error));
     } else {
       const { id, ...restUser } = user;
       const data = await fetchApi({ endPoint: `/users/${id}`, method: 'PUT', token, body: restUser });
-      if (data) {
+      console.log(data);
+      if (data.success) {
         dispatch(updateUser(data));
         showNotification(showSuccess(`Se actualizo el usuario ${data.userName}`));
         setUser(initialUser);
-      }
+      } else showNotification(showError(data.error));
     }
   };
 
