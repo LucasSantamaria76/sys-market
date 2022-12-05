@@ -13,11 +13,8 @@ export class UsersControllers {
     res.status(data.success ? 200 : 404).send(data);
   }
   static async update(req: Request, res: Response) {
-    const {
-      body,
-      params: { id },
-    } = req;
-    const data = await UserService.update(+id, body);
-    res.status(data.success ? 200 : 404).send(data?.data);
+    const { userName, password, newPassword } = req.body;
+    const data = await UserService.update({ userName, password: newPassword });
+    res.status(data.success ? 200 : 404).send(data);
   }
 }

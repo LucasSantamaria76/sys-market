@@ -6,7 +6,7 @@ export const showSuccess = (title) => {
   return {
     title: <Title order={3}>{title}</Title>,
     color: 'green',
-    style: { backgroundColor: '#3f96a2d5' },
+    style: { backgroundColor: '#3f96a296' },
     icon: <AiOutlineCheck />,
   };
 };

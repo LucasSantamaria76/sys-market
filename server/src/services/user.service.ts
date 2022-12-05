@@ -1,6 +1,7 @@
 import { prisma } from '..';
 import { ERROR_CODES } from './../constants/error';
 import { IUser } from './../interfaces/index';
+import bcrypt from 'bcrypt';
 
 export class UserService {
   constructor() {}
@@ -73,12 +74,13 @@ export class UserService {
       };
     }
   }
-  static async update(id: number, user: any) {
+  static async update({ userName, password }: IUser) {
     try {
+      const hashedPassword = await bcrypt.hash(password, 10);
       const data = await prisma.user.update({
-        where: { id },
+        where: { userName },
         data: {
-          ...user,
+          password: hashedPassword,
         },
       });
 

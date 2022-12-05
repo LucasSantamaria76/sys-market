@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const products_controllers_1 = require("../controllers/products.controllers");
+const middleware_1 = require("../middleware");
+const router = (0, express_1.Router)();
+router.use(middleware_1.verifyToken);
+router.post('/', products_controllers_1.ProductsController.create);
+router.get('/', products_controllers_1.ProductsController.getAll);
+router.get('/ProdByProv', products_controllers_1.ProductsController.getProductsByProvider);
+router.get('/:barcode', products_controllers_1.ProductsController.getByBarcode);
+router.put('/:barcode', products_controllers_1.ProductsController.update);
+router.patch('/:id', products_controllers_1.ProductsController.updateStock);
+router.delete('/:barcode', products_controllers_1.ProductsController.delete);
+exports.default = router;

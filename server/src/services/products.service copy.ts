@@ -2,8 +2,10 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '..';
 import { ERROR_CODES } from '../constants/error';
 
-export const ProductsService = {
-  create: async (prod: any, providerID: number) => {
+export class ProductsService {
+  constructor() {}
+
+  static async create(prod: any, providerID: number) {
     try {
       const product = await prisma.products.create({
         data: {
@@ -33,8 +35,8 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
-  getProductsByProvider: async (providerID: any) => {
+  }
+  static async getProductsByProvider(providerID: any) {
     try {
       const data = await prisma.providers.findUnique({
         where: { id: providerID },
@@ -70,8 +72,8 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
-  getAll: async () => {
+  }
+  static async getAll() {
     try {
       const products = await prisma.products.findMany({
         include: {
@@ -92,8 +94,8 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
-  getByBarcode: async (barcode: string) => {
+  }
+  static async getByBarcode(barcode: string) {
     try {
       const product = await prisma.products.findUnique({
         where: { barcode },
@@ -111,8 +113,8 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
-  update: async (barcode: string, prod: Prisma.productsCreateInput) => {
+  }
+  static async update(barcode: string, prod: Prisma.productsCreateInput) {
     try {
       const result = await prisma.products.update({
         where: { barcode },
@@ -128,9 +130,9 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
+  }
 
-  updateStock: async (barcode: string, isReduce: boolean, quantity: number) => {
+  static async updateStock(barcode: string, isReduce: boolean, quantity: number) {
     const operation = isReduce ? { decrement: quantity } : { increment: quantity };
     try {
       const result = await prisma.products.updateMany({
@@ -149,8 +151,8 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
-  delete: async (barcode: string) => {
+  }
+  static async delete(barcode: string) {
     try {
       const result = await prisma.products.delete({
         where: { barcode },
@@ -165,5 +167,5 @@ export const ProductsService = {
         fields: error.meta?.target,
       };
     }
-  },
-};
+  }
+}

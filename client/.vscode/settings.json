@@ -1,0 +1,6 @@
+{
+  "commentTranslate.source": "Google",
+  "commentTranslate.hover.enabled": true,
+  "reactSnippets.settings.importReactOnTop": false,
+  "reactSnippets.settings.typescriptPropsStatePrefix": "interface"
+}
