@@ -16,7 +16,7 @@ const ModalNewCashOrEditOuts = lazy(() => import('../../Modals/ModalNewCashOrEdi
 
 export const CashOuts = () => {
   const { classes, cx } = useStylesBtnList();
-  const { data, Refresh } = useFetch('/cashOuts/totalPerDay');
+  const { data, Refresh } = useFetch('cashOuts/totalPerDay');
   const [listOfDates, setListOfDates] = useState();
   const [openModalNewOrEditCashOuts, setOpenModalNewOrEditCashOuts] = useState(false);
   const [toEdit, setToEdit] = useState('');
@@ -27,7 +27,7 @@ export const CashOuts = () => {
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    fetchApi({ endPoint: '/cashOuts', token }).then(({ data }) => {
+    fetchApi({ endPoint: 'cashOuts', token }).then(({ data }) => {
       dispatch(setListCashOuts(data));
     });
   }, [dispatch, token]);
@@ -80,7 +80,7 @@ export const CashOuts = () => {
     openConfirmModal(
       confirmModal('Borrar la siguiente salida:', out.description, async () => {
         try {
-          const res = await fetchApi({ endPoint: `/cashOuts/${out.id}`, method: 'DELETE', token });
+          const res = await fetchApi({ endPoint: `cashOuts/${out.id}`, method: 'DELETE', token });
           if (res.success) {
             showNotification(showSuccess('Salida eliminada con éxito'));
             Refresh();

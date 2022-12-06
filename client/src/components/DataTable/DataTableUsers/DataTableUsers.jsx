@@ -25,7 +25,7 @@ export const DataTableUsers = ({ setUser, token }) => {
       openConfirmModal(
         confirmModal('Borrar el usuario:', user.userName, async () => {
           try {
-            const res = await fetchApi({ endPoint: `/users/${user.id}`, method: 'DELETE', token });
+            const res = await fetchApi({ endPoint: `users/${user.id}`, method: 'DELETE', token });
             if (res.success) {
               showNotification(showSuccess(`Usuario ${user.userName} fue eliminado`));
               dispatch(deleteUser(user.id));
