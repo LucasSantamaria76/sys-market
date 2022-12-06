@@ -81,7 +81,7 @@ export const FormProduct = ({ providerID, setOpened }) => {
         showNotification(showError('No hay productos cargados'));
         return;
       }
-      const res = await fetchApi({ endPoint: '/purchases', token, body });
+      const res = await fetchApi({ endPoint: 'purchases', token, body });
       if (res.success) {
         showNotification(showSuccess('Pedido cargado con éxito'));
         dispatch(resetPurchase());

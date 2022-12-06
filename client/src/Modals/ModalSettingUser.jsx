@@ -37,7 +37,7 @@ export const ModalSettingUser = ({ opened, setOpened, userName }) => {
       centered>
       <form
         onSubmit={FormSettingUser.onSubmit(async (values) => {
-          const res = await fetchApi({ endPoint: '/users', method: 'PUT', token, body: { ...values, userName } });
+          const res = await fetchApi({ endPoint: 'users', method: 'PUT', token, body: { ...values, userName } });
           console.log({ token, res });
           if (res.success) {
             FormSettingUser.reset();

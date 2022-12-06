@@ -20,7 +20,7 @@ export const Management = () => {
   useEffect(() => {
     const getAndSetUsers = async () => {
       try {
-        const res = await fetchApi({ endPoint: '/users', token });
+        const res = await fetchApi({ endPoint: 'users', token });
         res?.length && dispatch(setUsers(res));
       } catch (error) {
         console.log(error);
