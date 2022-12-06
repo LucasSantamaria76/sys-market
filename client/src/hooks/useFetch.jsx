@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-const baseURL = 'http://localhost:4000';
+const baseURL = process.env.REACT_APP_BASE_URL || 'http://localhost:4000';
 
 export const useFetch = (endPoint) => {
   const [data, setData] = useState(null);
