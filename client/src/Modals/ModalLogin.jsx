@@ -33,7 +33,7 @@ export const ModalLogin = ({ opened, setOpened }) => {
       centered>
       <form
         onSubmit={FormLogin.onSubmit(async (values) => {
-          const res = await fetchApi({ endPoint: '/auth/login', method: 'POST', body: values });
+          const res = await fetchApi({ endPoint: 'auth/login', method: 'POST', body: values });
           if (res.success) {
             FormLogin.reset();
             setOpened(false);
