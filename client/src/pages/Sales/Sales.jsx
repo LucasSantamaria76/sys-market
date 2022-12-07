@@ -26,27 +26,8 @@ import { useDisclosure } from '@mantine/hooks';
 import { SalesOfTheDay } from './components/SalesOfTheDay';
 import { formatPrice } from './../../utils/formatPrice';
 import { DataTableSale } from '../../components';
-import { showError, showSuccess } from './../../utils/notifications';
+import { notification, showError, showSuccess } from './../../utils/notifications';
 import { SalesData } from './components/SalesData';
-
-const notification = (title) => {
-  return {
-    title,
-    color: 'red',
-    icon: <GrFormClose />,
-    radius: 'md',
-    styles: (theme) => ({
-      root: {
-        backgroundColor: theme.colors.dark[3],
-      },
-      title: { color: theme.white, fontSize: '1.2rem' },
-      closeButton: {
-        color: theme.white,
-        '&:hover': { backgroundColor: theme.colors.gray[5] },
-      },
-    }),
-  };
-};
 
 export const Sales = () => {
   const barcodeRef = useRef(null);
@@ -287,7 +268,15 @@ export const Sales = () => {
           </Box>
         </MediaQuery>
         <Summary summary={summary} onClick={handleTableClick} addSale={addSale} loading={isLoading} />
-        <Modal opened={opened} onClose={close} size='90%' centered overflow='inside'>
+        <Modal
+          opened={opened}
+          onClose={close}
+          title={
+            <Text size='2rem' style={{ width: '96vw', textAlign: 'center' }} weight={700} color={theme.colors.brand[4]}>
+              Ventas del día
+            </Text>
+          }
+          fullScreen>
           <SalesOfTheDay />
         </Modal>
       </Box>

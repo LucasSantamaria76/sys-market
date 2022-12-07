@@ -19,3 +19,22 @@ export const showError = (title, message) => {
     icon: <GrFormClose />,
   };
 };
+
+export const notification = (title) => {
+  return {
+    title,
+    color: 'red',
+    icon: <GrFormClose />,
+    radius: 'md',
+    styles: (theme) => ({
+      root: {
+        backgroundColor: theme.colors.dark[3],
+      },
+      title: { color: theme.white, fontSize: '1.2rem' },
+      closeButton: {
+        color: theme.white,
+        '&:hover': { backgroundColor: theme.colors.gray[5] },
+      },
+    }),
+  };
+};
