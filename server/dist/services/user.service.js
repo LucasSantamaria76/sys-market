@@ -98,7 +98,7 @@ class UserService {
             }
         });
     }
-    static update({ userName, password }) {
+    static changePassword({ userName, password }) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -108,6 +108,26 @@ class UserService {
                     data: {
                         password: hashedPassword,
                     },
+                });
+                return { success: true, data };
+            }
+            catch (error) {
+                console.log('error: ', error);
+                return {
+                    success: false,
+                    error: error_1.ERROR_CODES[error.code] || 'Usuario no encontrado',
+                    fields: (_a = error.meta) === null || _a === void 0 ? void 0 : _a.target,
+                };
+            }
+        });
+    }
+    static update(id, dataUser) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield __1.prisma.user.update({
+                    where: { id },
+                    data: Object.assign({}, dataUser),
                 });
                 return { success: true, data };
             }

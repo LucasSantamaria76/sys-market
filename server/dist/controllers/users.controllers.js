@@ -25,10 +25,17 @@ class UsersControllers {
             res.status(data.success ? 200 : 404).send(data);
         });
     }
-    static update(req, res) {
+    static changePassword(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { userName, password, newPassword } = req.body;
-            const data = yield user_service_1.UserService.update({ userName, password: newPassword });
+            const data = yield user_service_1.UserService.changePassword({ userName, password: newPassword });
+            res.status(data.success ? 200 : 404).send(data);
+        });
+    }
+    static update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const data = yield user_service_1.UserService.update(+id, req.body);
             res.status(data.success ? 200 : 404).send(data);
         });
     }
