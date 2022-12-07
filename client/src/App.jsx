@@ -25,7 +25,7 @@ const App = () => {
       header={<HeaderContainer links={pages} />}
       styles={(theme) => ({
         main: {
-          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
+          backgroundColor: theme.colors.gray[1],
           padding: 0,
           height: '100%',
         },

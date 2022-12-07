@@ -12,9 +12,14 @@ export class UsersControllers {
     const data = await UserService.delete(+req.params.id);
     res.status(data.success ? 200 : 404).send(data);
   }
-  static async update(req: Request, res: Response) {
+  static async changePassword(req: Request, res: Response) {
     const { userName, password, newPassword } = req.body;
-    const data = await UserService.update({ userName, password: newPassword });
+    const data = await UserService.changePassword({ userName, password: newPassword });
+    res.status(data.success ? 200 : 404).send(data);
+  }
+  static async update(req: Request, res: Response) {
+    const { id } = req.params;
+    const data = await UserService.update(+id, req.body);
     res.status(data.success ? 200 : 404).send(data);
   }
 }

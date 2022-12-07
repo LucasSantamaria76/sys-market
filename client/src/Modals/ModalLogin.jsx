@@ -4,8 +4,13 @@ import { useForm } from '@mantine/form';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
 import { fetchApi } from '../API/fetchApi';
+import { useState } from 'react';
+import { Form } from 'react-router-dom';
+import { showNotification } from '@mantine/notifications';
+import { showError } from '../utils/notifications';
 
 export const ModalLogin = ({ opened, setOpened }) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const theme = useMantineTheme();
   const FormLogin = useForm({
@@ -33,12 +38,14 @@ export const ModalLogin = ({ opened, setOpened }) => {
       centered>
       <form
         onSubmit={FormLogin.onSubmit(async (values) => {
+          setLoading(true);
           const res = await fetchApi({ endPoint: 'auth/login', method: 'POST', body: values });
           if (res.success) {
             FormLogin.reset();
             setOpened(false);
             dispatch(login(res.user));
-          } else console.log(res.error);
+          } else showNotification(showError(res.error));
+          setLoading(false);
         })}>
         <TextInput
           placeholder='Ingrese su nombre de usuario'
@@ -58,8 +65,8 @@ export const ModalLogin = ({ opened, setOpened }) => {
           mb={10}
           {...FormLogin.getInputProps('password')}
         />
-        <Button type='submit' variant='outline' mt={15}>
-          Iniciar sesión
+        <Button type='submit' variant='outline' mt={15} loading={loading}>
+          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
         </Button>
       </form>
     </Modal>

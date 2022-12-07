@@ -2,6 +2,7 @@ import { prisma } from '..';
 import { ERROR_CODES } from './../constants/error';
 import { IUser } from './../interfaces/index';
 import bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
 
 export class UserService {
   constructor() {}
@@ -74,13 +75,32 @@ export class UserService {
       };
     }
   }
-  static async update({ userName, password }: IUser) {
+  static async changePassword({ userName, password }: IUser) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const data = await prisma.user.update({
         where: { userName },
         data: {
           password: hashedPassword,
+        },
+      });
+
+      return { success: true, data };
+    } catch (error: any) {
+      console.log('error: ', error);
+      return {
+        success: false,
+        error: ERROR_CODES[error.code] || 'Usuario no encontrado',
+        fields: error.meta?.target,
+      };
+    }
+  }
+  static async update(id: number, dataUser: Prisma.userUpdateInput) {
+    try {
+      const data = await prisma.user.update({
+        where: { id },
+        data: {
+          ...dataUser,
         },
       });
 
