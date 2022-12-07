@@ -35,9 +35,7 @@ export const OperatorManagement = () => {
       } else showNotification(showError(data.error));
     } else {
       const { id, ...restUser } = user;
-      console.log(user);
-      const data = await fetchApi({ endPoint: `users/${id}`, method: 'PUT', token, body: restUser });
-      console.log(data);
+      const data = await fetchApi({ endPoint: `users/${id}`, method: 'PATCH', token, body: restUser });
       if (data.success) {
         dispatch(updateUser(data));
         showNotification(showSuccess(`Se actualizo el usuario ${data.userName}`));
