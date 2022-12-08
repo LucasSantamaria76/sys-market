@@ -11,19 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PurchasesControllers = void 0;
 const purchases_service_1 = require("../services/purchases.service");
-class PurchasesControllers {
-    constructor() { }
-    static create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield purchases_service_1.PurchasesService.create(req.body);
-            res.status(data.success ? 201 : 400).send(data);
-        });
-    }
-    static getAll(_req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield purchases_service_1.PurchasesService.getAll();
-            res.status(data.success ? 200 : 404).send(data);
-        });
-    }
-}
-exports.PurchasesControllers = PurchasesControllers;
+exports.PurchasesControllers = {
+    create: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield purchases_service_1.PurchasesService.create(req.body);
+        res.status(data.success ? 201 : 400).send(data);
+    }),
+    getAll: (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield purchases_service_1.PurchasesService.getAll();
+        res.status(data.success ? 200 : 404).send(data);
+    }),
+};

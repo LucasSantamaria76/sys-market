@@ -4,10 +4,8 @@ import { IUser } from './../interfaces/index';
 import bcrypt from 'bcrypt';
 import { Prisma } from '@prisma/client';
 
-export class UserService {
-  constructor() {}
-
-  static async create(userData: any) {
+export const UserService = {
+  create: async (userData: Prisma.userCreateInput) => {
     try {
       const user = await prisma.user.create({
         data: {
@@ -29,8 +27,8 @@ export class UserService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async getAll() {
+  },
+  getAll: async () => {
     try {
       const users = await prisma.user.findMany({
         select: {
@@ -48,8 +46,8 @@ export class UserService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async getByUserName(userName: string) {
+  },
+  getByUserName: async (userName: string) => {
     try {
       const user = await prisma.user.findUniqueOrThrow({ where: { userName } });
       return { success: true, user };
@@ -61,8 +59,8 @@ export class UserService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async delete(id: number) {
+  },
+  delete: async (id: number) => {
     try {
       const res = await prisma.user.delete({ where: { id } });
 
@@ -74,8 +72,8 @@ export class UserService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async changePassword({ userName, password }: IUser) {
+  },
+  changePassword: async ({ userName, password }: IUser) => {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
       const data = await prisma.user.update({
@@ -94,8 +92,8 @@ export class UserService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async update(id: number, dataUser: Prisma.userUpdateInput) {
+  },
+  update: async (id: number, dataUser: Prisma.userUpdateInput) => {
     try {
       const data = await prisma.user.update({
         where: { id },
@@ -113,5 +111,5 @@ export class UserService {
         fields: error.meta?.target,
       };
     }
-  }
-}
+  },
+};

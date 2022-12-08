@@ -3,9 +3,8 @@ import dayjs from 'dayjs';
 import { prisma } from '..';
 import { ERROR_CODES } from '../constants/error';
 
-export class CashOutsService {
-  constructor() {}
-  static async create({ amount, description, date }: Prisma.cashOutsCreateInput) {
+export const CashOutsService = {
+  create: async ({ amount, description, date }: Prisma.cashOutsCreateInput) => {
     try {
       const data = await prisma.cashOuts.create({
         data: {
@@ -24,8 +23,8 @@ export class CashOutsService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async getAll() {
+  },
+  getAll: async () => {
     try {
       const data = await prisma.cashOuts.findMany({});
 
@@ -38,8 +37,8 @@ export class CashOutsService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async getTotalPerDay() {
+  },
+  getTotalPerDay: async () => {
     try {
       const data = await prisma.cashOuts.groupBy({
         by: ['date'],
@@ -56,8 +55,8 @@ export class CashOutsService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async update(id: string, body: Prisma.cashOutsCreateInput) {
+  },
+  update: async (id: string, body: Prisma.cashOutsCreateInput) => {
     try {
       const data = await prisma.cashOuts.update({
         where: { id },
@@ -74,8 +73,8 @@ export class CashOutsService {
         flields: error.meta?.target,
       };
     }
-  }
-  static async delete(id: string) {
+  },
+  delete: async (id: string) => {
     try {
       const data = await prisma.cashOuts.delete({ where: { id } });
       console.log(data);
@@ -87,5 +86,5 @@ export class CashOutsService {
         fields: error.meta?.target,
       };
     }
-  }
-}
+  },
+};

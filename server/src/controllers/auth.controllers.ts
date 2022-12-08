@@ -1,11 +1,9 @@
 import { Request, Response } from 'express';
 import { AuthService } from './../services/auth.service';
-import { IUser } from './../interfaces';
 
 export const ControllerAuth = {
   register: async (req: Request, res: Response) => {
     const data = await AuthService.register(req.body);
-    console.log(data);
 
     res.status(data!.success ? 201 : 401).send(data);
   },

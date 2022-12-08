@@ -14,7 +14,6 @@ const auth_service_1 = require("./../services/auth.service");
 exports.ControllerAuth = {
     register: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const data = yield auth_service_1.AuthService.register(req.body);
-        console.log(data);
         res.status(data.success ? 201 : 401).send(data);
     }),
     login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {

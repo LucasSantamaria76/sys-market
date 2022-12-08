@@ -11,46 +11,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProvidersController = void 0;
 const provider_service_1 = require("./../services/provider.service");
-class ProvidersController {
-    constructor() { }
-    static create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield provider_service_1.ProvidersService.create(req.body);
-            res.status(201).send(data);
-        });
-    }
-    static getAll(_req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield provider_service_1.ProvidersService.getAll();
-            res.status(200).send(data);
-        });
-    }
-    static getById(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const data = yield provider_service_1.ProvidersService.getById(+id);
-            res.status(200).send(data);
-        });
-    }
-    static update(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const data = yield provider_service_1.ProvidersService.update(+id, req.body);
-            res.status(200).send(data);
-        });
-    }
-    static addProduct(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const data = yield provider_service_1.ProvidersService.addProduct(+id, req.body);
-            res.status(200).send(data);
-        });
-    }
-    static delete(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield provider_service_1.ProvidersService.delete(+req.params.id);
-            res.status(200).send(data);
-        });
-    }
-}
-exports.ProvidersController = ProvidersController;
+exports.ProvidersController = {
+    create: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield provider_service_1.ProvidersService.create(req.body);
+        res.status(201).send(data);
+    }),
+    getAll: (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield provider_service_1.ProvidersService.getAll();
+        res.status(200).send(data);
+    }),
+    getById: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const data = yield provider_service_1.ProvidersService.getById(+id);
+        res.status(200).send(data);
+    }),
+    update: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const data = yield provider_service_1.ProvidersService.update(+id, req.body);
+        res.status(200).send(data);
+    }),
+    addProduct: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const data = yield provider_service_1.ProvidersService.addProduct(+id, req.body);
+        res.status(200).send(data);
+    }),
+    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield provider_service_1.ProvidersService.delete(+req.params.id);
+        res.status(200).send(data);
+    }),
+};
