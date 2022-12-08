@@ -22,55 +22,39 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductsController = void 0;
 const products_service_1 = require("../services/products.service");
-class ProductsController {
-    constructor() { }
-    static create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const _a = req.body, { providerID } = _a, prod = __rest(_a, ["providerID"]);
-            const data = yield products_service_1.ProductsService.create(prod, providerID);
-            res.status((data === null || data === void 0 ? void 0 : data.success) ? 200 : 400).send(data);
-        });
-    }
-    static getProductsByProvider(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { providerID } = req.query;
-            let data;
-            if (providerID)
-                data = yield products_service_1.ProductsService.getProductsByProvider(+providerID);
-            res.status((data === null || data === void 0 ? void 0 : data.success) ? 200 : 404).send(data);
-        });
-    }
-    static getAll(_req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield products_service_1.ProductsService.getAll();
-            res.status(200).send(data);
-        });
-    }
-    static getByBarcode(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield products_service_1.ProductsService.getByBarcode(req.params.barcode);
-            res.status(200).send(data);
-        });
-    }
-    static update(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { barcode } = req.params;
-            const data = yield products_service_1.ProductsService.update(barcode, req.body);
-            res.status(200).send(data);
-        });
-    }
-    static updateStock(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { isReduce, quantity } = req.body;
-            const data = yield products_service_1.ProductsService.updateStock(req.params.id, isReduce, quantity);
-            res.status(200).send(data);
-        });
-    }
-    static delete(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield products_service_1.ProductsService.delete(req.params.barcode);
-            res.status(200).send(data);
-        });
-    }
-}
-exports.ProductsController = ProductsController;
+exports.ProductsController = {
+    create: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const _a = req.body, { providerID } = _a, prod = __rest(_a, ["providerID"]);
+        const data = yield products_service_1.ProductsService.create(prod, providerID);
+        res.status((data === null || data === void 0 ? void 0 : data.success) ? 200 : 400).send(data);
+    }),
+    getProductsByProvider: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { providerID } = req.query;
+        let data;
+        if (providerID)
+            data = yield products_service_1.ProductsService.getProductsByProvider(+providerID);
+        res.status((data === null || data === void 0 ? void 0 : data.success) ? 200 : 404).send(data);
+    }),
+    getAll: (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield products_service_1.ProductsService.getAll();
+        res.status(200).send(data);
+    }),
+    getByBarcode: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield products_service_1.ProductsService.getByBarcode(req.params.barcode);
+        res.status(200).send(data);
+    }),
+    update: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { barcode } = req.params;
+        const data = yield products_service_1.ProductsService.update(barcode, req.body);
+        res.status(200).send(data);
+    }),
+    updateStock: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { isReduce, quantity } = req.body;
+        const data = yield products_service_1.ProductsService.updateStock(req.params.id, isReduce, quantity);
+        res.status(200).send(data);
+    }),
+    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield products_service_1.ProductsService.delete(req.params.barcode);
+        res.status(200).send(data);
+    }),
+};

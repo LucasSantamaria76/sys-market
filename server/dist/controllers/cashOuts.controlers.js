@@ -11,37 +11,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CashOutsControler = void 0;
 const cashOuts_service_1 = require("./../services/cashOuts.service");
-class CashOutsControler {
-    constructor() { }
-    static create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield cashOuts_service_1.CashOutsService.create(req.body);
-            res.status(data.success ? 201 : 400).send(data);
-        });
-    }
-    static getAll(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield cashOuts_service_1.CashOutsService.getAll();
-            res.status(data.success ? 200 : 400).send(data);
-        });
-    }
-    static getTotalPerDay(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield cashOuts_service_1.CashOutsService.getTotalPerDay();
-            res.status(data.success ? 200 : 400).send(data);
-        });
-    }
-    static update(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield cashOuts_service_1.CashOutsService.update(req.params.id, req.body);
-            res.status(data.success ? 200 : 400).send(data);
-        });
-    }
-    static delete(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield cashOuts_service_1.CashOutsService.delete(req.params.id);
-            res.status(data.success ? 200 : 400).send(data);
-        });
-    }
-}
-exports.CashOutsControler = CashOutsControler;
+exports.CashOutsControler = {
+    create: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield cashOuts_service_1.CashOutsService.create(req.body);
+        res.status(data.success ? 201 : 400).send(data);
+    }),
+    getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield cashOuts_service_1.CashOutsService.getAll();
+        res.status(data.success ? 200 : 400).send(data);
+    }),
+    getTotalPerDay: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield cashOuts_service_1.CashOutsService.getTotalPerDay();
+        res.status(data.success ? 200 : 400).send(data);
+    }),
+    update: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield cashOuts_service_1.CashOutsService.update(req.params.id, req.body);
+        res.status(data.success ? 200 : 400).send(data);
+    }),
+    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield cashOuts_service_1.CashOutsService.delete(req.params.id);
+        res.status(data.success ? 200 : 400).send(data);
+    }),
+};

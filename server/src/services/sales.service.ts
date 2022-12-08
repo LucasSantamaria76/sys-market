@@ -2,10 +2,8 @@ import { prisma } from '..';
 import { ERROR_CODES } from '../constants/error';
 import dayjs from 'dayjs';
 
-export class SalesService {
-  constructor() {}
-
-  static async create(paymentMethod: number, total: number, items: any[]) {
+export const SalesService = {
+  create: async (paymentMethod: number, total: number, items: any[]) => {
     try {
       const sale = await prisma.sale.create({
         data: {
@@ -34,9 +32,8 @@ export class SalesService {
         fields: error.meta?.target,
       };
     }
-  }
-
-  static async getAll(date?: any) {
+  },
+  getAll: async (date?: any) => {
     const dateFormat = dayjs(date).toDate().toISOString();
     const dateFilter = date
       ? {
@@ -70,5 +67,5 @@ export class SalesService {
         fields: error.meta?.target,
       };
     }
-  }
-}
+  },
+};

@@ -6,10 +6,8 @@ import { IProductPurchase } from './../interfaces/index';
 import { ProvidersService } from './provider.service';
 import { CashOutsService } from './cashOuts.service';
 
-export class PurchasesService {
-  constructor() {}
-
-  static async create(data: IPurchase) {
+export const PurchasesService = {
+  create: async (data: IPurchase) => {
     const { products, providerId, total, paid_purchase } = data;
 
     try {
@@ -61,8 +59,8 @@ export class PurchasesService {
         fields: error.meta?.target,
       };
     }
-  }
-  static async getAll() {
+  },
+  getAll: async () => {
     try {
       const purchases = await prisma.purchases.findMany({
         include: {
@@ -80,5 +78,5 @@ export class PurchasesService {
         fields: error.meta?.target,
       };
     }
-  }
-}
+  },
+};

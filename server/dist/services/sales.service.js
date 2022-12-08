@@ -16,80 +16,74 @@ exports.SalesService = void 0;
 const __1 = require("..");
 const error_1 = require("../constants/error");
 const dayjs_1 = __importDefault(require("dayjs"));
-class SalesService {
-    constructor() { }
-    static create(paymentMethod, total, items) {
+exports.SalesService = {
+    create: (paymentMethod, total, items) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const sale = yield __1.prisma.sale.create({
-                    data: {
-                        total,
-                        paymentMethod,
-                        date: (0, dayjs_1.default)().toDate().toISOString(),
-                        items: {
-                            create: items.map(({ quantity, price, barcode }) => ({
-                                quantity,
-                                price,
-                                product: {
-                                    connect: {
-                                        barcode,
-                                    },
+        try {
+            const sale = yield __1.prisma.sale.create({
+                data: {
+                    total,
+                    paymentMethod,
+                    date: (0, dayjs_1.default)().toDate().toISOString(),
+                    items: {
+                        create: items.map(({ quantity, price, barcode }) => ({
+                            quantity,
+                            price,
+                            product: {
+                                connect: {
+                                    barcode,
                                 },
-                            })),
-                        },
+                            },
+                        })),
                     },
-                });
-                return { success: true, sale };
+                },
+            });
+            return { success: true, sale };
+        }
+        catch (error) {
+            console.log({ error });
+            return {
+                sucess: false,
+                error: error_1.ERROR_CODES[error.code] || 'Hubo un error al crear el producto',
+                fields: (_a = error.meta) === null || _a === void 0 ? void 0 : _a.target,
+            };
+        }
+    }),
+    getAll: (date) => __awaiter(void 0, void 0, void 0, function* () {
+        var _b;
+        const dateFormat = (0, dayjs_1.default)(date).toDate().toISOString();
+        const dateFilter = date
+            ? {
+                date: {
+                    equals: dateFormat,
+                },
             }
-            catch (error) {
-                console.log({ error });
-                return {
-                    sucess: false,
-                    error: error_1.ERROR_CODES[error.code] || 'Hubo un error al crear el producto',
-                    fields: (_a = error.meta) === null || _a === void 0 ? void 0 : _a.target,
-                };
-            }
-        });
-    }
-    static getAll(date) {
-        var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            const dateFormat = (0, dayjs_1.default)(date).toDate().toISOString();
-            const dateFilter = date
-                ? {
-                    date: {
-                        equals: dateFormat,
-                    },
-                }
-                : {};
-            try {
-                const sales = yield __1.prisma.sale.findMany({
-                    where: dateFilter,
-                    include: {
-                        items: {
-                            include: {
-                                product: {
-                                    select: {
-                                        photoURL: true,
-                                        description: true,
-                                    },
+            : {};
+        try {
+            const sales = yield __1.prisma.sale.findMany({
+                where: dateFilter,
+                include: {
+                    items: {
+                        include: {
+                            product: {
+                                select: {
+                                    photoURL: true,
+                                    description: true,
                                 },
                             },
                         },
                     },
-                });
-                return { success: true, sales };
-            }
-            catch (error) {
-                console.log({ error });
-                return {
-                    success: false,
-                    error: error_1.ERROR_CODES[error.code] || 'Hubo un error al recuperar las ventas',
-                    fields: (_a = error.meta) === null || _a === void 0 ? void 0 : _a.target,
-                };
-            }
-        });
-    }
-}
-exports.SalesService = SalesService;
+                },
+            });
+            return { success: true, sales };
+        }
+        catch (error) {
+            console.log({ error });
+            return {
+                success: false,
+                error: error_1.ERROR_CODES[error.code] || 'Hubo un error al recuperar las ventas',
+                fields: (_b = error.meta) === null || _b === void 0 ? void 0 : _b.target,
+            };
+        }
+    }),
+};

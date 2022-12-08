@@ -11,33 +11,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersControllers = void 0;
 const user_service_1 = require("./../services/user.service");
-class UsersControllers {
-    constructor() { }
-    static getAll(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield user_service_1.UserService.getAll();
-            res.status(data.success ? 200 : 404).send(data.users);
-        });
-    }
-    static delete(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const data = yield user_service_1.UserService.delete(+req.params.id);
-            res.status(data.success ? 200 : 404).send(data);
-        });
-    }
-    static changePassword(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { userName, password, newPassword } = req.body;
-            const data = yield user_service_1.UserService.changePassword({ userName, password: newPassword });
-            res.status(data.success ? 200 : 404).send(data);
-        });
-    }
-    static update(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const data = yield user_service_1.UserService.update(+id, req.body);
-            res.status(data.success ? 200 : 404).send(data);
-        });
-    }
-}
-exports.UsersControllers = UsersControllers;
+exports.UsersControllers = {
+    getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield user_service_1.UserService.getAll();
+        res.status(data.success ? 200 : 404).send(data.users);
+    }),
+    delete: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const data = yield user_service_1.UserService.delete(+req.params.id);
+        res.status(data.success ? 200 : 404).send(data);
+    }),
+    changePassword: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { userName, password, newPassword } = req.body;
+        const data = yield user_service_1.UserService.changePassword({ userName, password: newPassword });
+        res.status(data.success ? 200 : 404).send(data);
+    }),
+    update: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = req.params;
+        const data = yield user_service_1.UserService.update(+id, req.body);
+        res.status(data.success ? 200 : 404).send(data);
+    }),
+};
