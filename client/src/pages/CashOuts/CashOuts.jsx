@@ -52,14 +52,14 @@ export const CashOuts = () => {
   const handleSaveOuts = async (values) => {
     try {
       const option = toEdit
-        ? { endPoint: `/cashOuts/${toEdit.id}`, method: 'PUT' }
-        : { endPoint: '/cashOuts', method: 'POST' };
+        ? { endPoint: `cashOuts/${toEdit.id}`, method: 'PUT' }
+        : { endPoint: 'cashOuts', method: 'POST' };
 
       const res = await fetchApi({ ...option, token, body: values });
-
+      Refresh();
       if (res.success) {
         showNotification(showSuccess(`Salida ${!toEdit ? 'creada' : 'actualizada'} con éxito`));
-        !listOfDates.find((item) => item.date === dayjs().format('DD-MM-YYYY')) && Refresh(); //If today's date is not found, I make the call again
+        //!listOfDates.find((item) => item.date === dayjs().format('DD-MM-YYYY')) && Refresh(); //If today's date is not found, I make the call again
         dispatch(!toEdit ? addCashOuts(res.data) : updateCashOuts(res.data)); //I update the store
       } else showNotification(showError(`No se pudo ${!toEdit ? 'crear' : 'actualizar'} la salida`));
     } catch (error) {

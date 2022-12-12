@@ -1,12 +1,9 @@
 import { DataTable } from 'mantine-datatable';
-import { useGetProductsOfProviderQuery } from '../../../redux/apis/productsApi';
 import { Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import { formatPrice } from '../../../utils/formatPrice';
 
-export const DataTableProviderProducts = ({ providerId }) => {
-  const { data, isLoading } = useGetProductsOfProviderQuery(providerId);
-
+export const DataTableProviderProducts = ({ listProducts, isLoading }) => {
   return (
     <DataTable
       mt={10}
@@ -15,7 +12,7 @@ export const DataTableProviderProducts = ({ providerId }) => {
       rowBorderColor='#d4d4d4'
       highlightOnHover
       noRecordsText='No se encontraron productos'
-      records={data?.listProducts}
+      records={listProducts}
       idAccessor='barcode'
       columns={[
         { accessor: 'barcode', hidden: true },

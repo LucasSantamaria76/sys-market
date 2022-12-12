@@ -9,7 +9,6 @@ export const fetchApi = async ({ endPoint, method = 'GET', token = '', body }) =
     },
     body: body && JSON.stringify(body),
   });
-  console.log(res);
 
   return await res.json();
 };

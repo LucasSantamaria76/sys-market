@@ -11,7 +11,7 @@ const ModalAddProductToProvider = ({ providerID, opened, setOpened, refetch }) =
   const theme = useMantineTheme();
   const [products, setProducts] = useState([]);
   const { data } = useGetProductsQuery();
-  const [addProductToProvider, { isLoading, error }] = useAddProductToProviderMutation();
+  const [addProductToProvider, { isLoading, isError }] = useAddProductToProviderMutation();
 
   useEffect(() => {
     setProducts(
@@ -54,7 +54,7 @@ const ModalAddProductToProvider = ({ providerID, opened, setOpened, refetch }) =
         </Text>
       }
       size={'md'}
-      overlayColor={theme.colorScheme === 'dark' ? theme.colors.dark[9] : theme.colors.gray[2]}
+      overlayColor={theme.colors.gray[2]}
       overlayOpacity={0.55}
       overlayBlur={3}
       shadow={'2px 2px 10px rgba(0,0,0,0.75)'}
@@ -64,13 +64,13 @@ const ModalAddProductToProvider = ({ providerID, opened, setOpened, refetch }) =
           const data = { ...values, id: providerID };
 
           await addProductToProvider(data).unwrap();
-          if (!error) {
+          if (isError) {
+            showNotification(showError('No se pudo asociar el producto'));
+          } else {
             FormAddProductToProvider.reset();
             refetch();
             setOpened(false);
             showNotification(showSuccess('Producto asociado con éxito'));
-          } else {
-            showNotification(showError('No se pudo asociar el producto'));
           }
         })}>
         <NumberInput
