@@ -1,4 +1,5 @@
 const baseURL = process.env.REACT_APP_BASE_URL || 'http://localhost:4000/';
+console.log({ baseURL });
 
 export const fetchApi = async ({ endPoint, method = 'GET', token = '', body }) => {
   const res = await fetch(`${baseURL}${endPoint}`, {
