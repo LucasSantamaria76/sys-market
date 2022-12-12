@@ -24,7 +24,7 @@ export const OperatorManagement = () => {
   const handleAddOrUpdate = async () => {
     if (!user.id) {
       const data = await fetchApi({
-        endPoint: '/auth/register',
+        endPoint: 'auth/register',
         method: 'POST',
         body: { ...user, password: '123456' },
       });
@@ -35,11 +35,11 @@ export const OperatorManagement = () => {
       } else showNotification(showError(data.error));
     } else {
       const { id, ...restUser } = user;
-      const data = await fetchApi({ endPoint: `users/${id}`, method: 'PATCH', token, body: restUser });
-      if (data.success) {
-        dispatch(updateUser(data));
+      const { data, success } = await fetchApi({ endPoint: `users/${id}`, method: 'PATCH', token, body: restUser });
+      if (success) {
         showNotification(showSuccess(`Se actualizo el usuario ${data.userName}`));
         setUser(initialUser);
+        dispatch(updateUser(data));
       } else showNotification(showError(data.error));
     }
   };

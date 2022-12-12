@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-const API = `${process.env.REACT_APP_BASE_URL}sales` || 'http://localhost:4000/sales';
+import { API } from '../../constants/constants';
 
 export const salesApi = createApi({
   reducerPath: 'salesApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: API,
+    baseUrl: API + 'sales',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.user.token;
       if (token) {

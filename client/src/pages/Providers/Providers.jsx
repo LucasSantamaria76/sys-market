@@ -10,6 +10,7 @@ import { DetailsProvider } from './components/DetailsProvider';
 import { DataTableProviders } from '../../components';
 import { showError, showSuccess } from './../../utils/notifications';
 import { confirmModal } from '../../utils/confirmModal';
+import { useGetProductsOfProviderQuery } from '../../redux/apis/productsApi';
 
 const ModalNewOrEditProvider = lazy(() => import('../../Modals/ModalNewOrEditProvider'));
 
@@ -19,6 +20,7 @@ export const Providers = () => {
   const [providerId, setProviderId] = useState(1);
   const [openModalNewOrEditProvider, setOpenModalNewOrEditProvider] = useState(false);
   const { data: detailProvider } = useGetProviderByIdQuery(providerId);
+  const { data, isLoading: loadingProdProv, refetch } = useGetProductsOfProviderQuery(providerId);
 
   const [query, setQuery] = useState('');
   const [records, setRecords] = useState(providers);
@@ -48,7 +50,7 @@ export const Providers = () => {
 
   return (
     <Container fluid p={20}>
-      <DetailsProvider provider={detailProvider} />
+      <DetailsProvider provider={detailProvider} refetch={refetch} />
 
       <Grid grow>
         <Grid.Col sm={12} md={3}>
@@ -74,7 +76,7 @@ export const Providers = () => {
         </Grid.Col>
         <Grid.Col sm={12} md={9}>
           <Box sx={{ height: '72vh' }}>
-            <DataTableProviderProducts providerId={providerId} />
+            <DataTableProviderProducts listProducts={data?.listProducts} isloading={loadingProdProv} />
           </Box>
         </Grid.Col>
       </Grid>

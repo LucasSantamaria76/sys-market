@@ -14,10 +14,8 @@ export const usersSlice = createSlice({
       return state;
     },
     updateUser: (state, { payload }) => {
-      const user = state.users.find((user) => user.id === payload.id);
-      const idx = state.users.indexOf(user);
-      state.users[idx] = { ...payload };
-
+      const idx = state.users.findIndex((user) => user.id === payload.id);
+      state.users[idx] = payload;
       return state;
     },
 
