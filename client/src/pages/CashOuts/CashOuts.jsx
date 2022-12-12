@@ -1,4 +1,4 @@
-import { UnstyledButton, Container, Stack, ScrollArea, Grid, Button, Loader } from '@mantine/core';
+import { UnstyledButton, Container, Stack, ScrollArea, Grid, Button, Loader, Center } from '@mantine/core';
 import { openConfirmModal } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
 import dayjs from 'dayjs';
@@ -114,7 +114,14 @@ export const CashOuts = () => {
             </Stack>
           </Grid.Col>
         </Grid>
-        <Suspense fallback={<Loader variant='bars' />}>
+        <Suspense
+          fallback={
+            <>
+              <Center>
+                <Loader variant='bars' />
+              </Center>
+            </>
+          }>
           {openModalNewOrEditCashOuts && (
             <ModalNewCashOrEditOuts
               opened={openModalNewOrEditCashOuts}

@@ -18,6 +18,8 @@ export const DataTableByDate = ({ records, isLoading }) => {
       records={records}
       idAccessor='id'
       sx={{ width: '95vw' }}
+      minHeight={100}
+      fetching={isLoading}
       columns={[
         {
           accessor: 'quantity',
