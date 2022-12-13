@@ -73,13 +73,6 @@ const ModalAddProductToProvider = ({ providerID, opened, setOpened, refetch }) =
             showNotification(showSuccess('Producto asociado con éxito'));
           }
         })}>
-        <NumberInput
-          label='Costo'
-          description='Ingrese precio de costo del producto'
-          {...FormAddProductToProvider.getInputProps('cost')}
-          hideControls
-          data-autofocus
-        />
         {!!products?.length && (
           <Select
             itemComponent={SelectItem}
@@ -91,6 +84,12 @@ const ModalAddProductToProvider = ({ providerID, opened, setOpened, refetch }) =
             {...FormAddProductToProvider.getInputProps('barcode')}
           />
         )}
+        <NumberInput
+          label='Costo'
+          description='Ingrese precio de costo del producto'
+          {...FormAddProductToProvider.getInputProps('cost')}
+          hideControls
+        />
         <Grid justify={'space-between'} align='flex-end' mt={10}>
           <Text size='xs' color={'pink'}>
             * Campos requeridos
