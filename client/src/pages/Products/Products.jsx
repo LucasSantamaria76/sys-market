@@ -91,7 +91,7 @@ export const Products = () => {
           <Loader variant='bars' />
         </Center>
       ) : (
-        <MediaQuery query='(max-width: 768px)' styles={{ height: '75vh' }}>
+        <MediaQuery query='(max-width: 768px)' styles={{ height: '65vh' }}>
           <Box sx={{ height: '80vh' }}>
             <DataTableProducts records={records} deleteReg={deleteProduct} />
           </Box>

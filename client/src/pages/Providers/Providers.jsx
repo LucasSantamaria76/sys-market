@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Loader, TextInput } from '@mantine/core';
+import { Box, Button, Container, Grid, Loader, MediaQuery, TextInput } from '@mantine/core';
 import { BsSearch } from 'react-icons/bs';
 import { useDeleteProviderMutation, useGetProviderByIdQuery, useGetProvidersQuery } from '../../redux/apis/providers';
 import { DataTableProviderProducts } from '../../components/DataTable/DataTableProviderProducts/DataTableProviderProducts';
@@ -65,19 +65,23 @@ export const Providers = () => {
             value={query}
             onChange={(e) => setQuery(e.currentTarget.value)}
           />
-          <Box sx={{ height: '75vh' }}>
-            <DataTableProviders
-              providers={records}
-              setProviderId={setProviderId}
-              fetching={isLoading}
-              deleteProvider={deleteProvider}
-            />
-          </Box>
+          <MediaQuery query='(max-width: 992px)' styles={{ height: '30vh' }}>
+            <Box sx={{ height: '75vh' }}>
+              <DataTableProviders
+                providers={records}
+                setProviderId={setProviderId}
+                fetching={isLoading}
+                deleteProvider={deleteProvider}
+              />
+            </Box>
+          </MediaQuery>
         </Grid.Col>
         <Grid.Col sm={12} md={9}>
-          <Box sx={{ height: '72vh' }}>
-            <DataTableProviderProducts listProducts={data?.listProducts} isloading={loadingProdProv} />
-          </Box>
+          <MediaQuery query='(max-width: 992px)' styles={{ height: '35vh' }}>
+            <Box sx={{ height: '72vh' }}>
+              <DataTableProviderProducts listProducts={data?.listProducts} isloading={loadingProdProv} />
+            </Box>
+          </MediaQuery>
         </Grid.Col>
       </Grid>
       <Suspense fallback={<Loader variant='bars' />}>
