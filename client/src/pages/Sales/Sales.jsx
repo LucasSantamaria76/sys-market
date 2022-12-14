@@ -262,8 +262,8 @@ export const Sales = () => {
             Ventas del día
           </Button>
         </Group>
-        <MediaQuery query='(max-width: 778px)' styles={{ height: '50vh' }}>
-          <Box sx={{ height: '65vh', border: '1px solid #ccc' }}>
+        <MediaQuery query='(max-width: 778px)' styles={{ height: '30vh' }}>
+          <Box sx={{ height: '60vh', border: '1px solid #ccc' }}>
             <DataTableSale records={items} onClick={handleTableClick} />
           </Box>
         </MediaQuery>

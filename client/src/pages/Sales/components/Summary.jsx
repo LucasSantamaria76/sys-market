@@ -6,7 +6,7 @@ import { PAYMENT_METHODS } from '../../../constants/constants';
 
 export const Summary = ({ onClick, summary, addSale, loading }) => {
   return (
-    <Paper p='md' withBorder sx={{ height: '15vh' }} onClick={onClick}>
+    <Paper p='md' withBorder sx={{ height: '20vh' }} onClick={onClick}>
       <Stack align='flex-end' justify='space-between' sx={{ height: '100%', gap: 0 }}>
         <Grid sx={{ width: '300px' }}>
           <Grid.Col span={6} sx={{ textAlign: 'left' }}>
