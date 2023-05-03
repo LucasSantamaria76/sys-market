@@ -1,37 +1,15 @@
-FROM debian:bullseye as builder
+FROM node:18-alpine
 
-ARG NODE_VERSION=18.12.1
-ARG YARN_VERSION=1.22.19
+RUN npm i -g ts-node
 
-RUN apt-get update; apt install -y curl
-RUN curl https://get.volta.sh | bash
-ENV VOLTA_HOME /root/.volta
-ENV PATH /root/.volta/bin:$PATH
-RUN volta install node@${NODE_VERSION} yarn@${YARN_VERSION}
+WORKDIR /usr/app
 
-#######################################################################
-
-RUN mkdir /app
-WORKDIR /app
-
-# Yarn will not install any package listed in "devDependencies" when NODE_ENV is set to "production"
-# to install all modules: "yarn install --production=false"
-# Ref: https://classic.yarnpkg.com/lang/en/docs/cli/install/#toc-yarn-install-production-true-false
-
-ENV NODE_ENV production
+COPY package*.json .
 
 COPY . .
 
-RUN yarn install
-FROM debian:bullseye
+RUN npm i
 
-LABEL fly_launch_runtime="nodejs"
+EXPOSE 4000
 
-COPY --from=builder /root/.volta /root/.volta
-COPY --from=builder /app /app
-
-WORKDIR /app
-ENV NODE_ENV production
-ENV PATH /root/.volta/bin:$PATH
-
-CMD [ "yarn", "run", "start" ]
+CMD [ "npm", "start" ]
