@@ -1,40 +1,40 @@
 version: '3.9'
 services: 
   sys-market_server-img:
-    image: ls76/sysmarket-server:latest
+    image: market-server
     container_name: sys-market_server-ctn
     restart: always
     environment:
-      - SECRET="stringsecretofsysMarket"
-      - DATABASE_URL="postgres://adminUser:mysecretpassword@database/sysmarketdb"
+      - SECRET=stringsecretofsysMarket
+      - DATABASE_URL=postgres://admin:Mhfc9a2wjxlD4rdyElmTJPMtPPHCys9y@dpg-cha31au7avj5o4b7actg-a.oregon-postgres.render.com/sysmarketdb_7d6b
     ports:
       - 4000:4000
-    command: npx prisma migrate dev --name init
-    depends_on:
-      - database
+    #command: npx prisma migrate dev; node dist/index.js
+    # depends_on:
+    #   - database
               
   sys-market_client-img:
     image: ls76/sysmarket-client:latest
     container_name: sys-market_client-ctn
     restart: always
     environment:
-      - REACT_APP_BASE_URL="http://localhost:4000/"
+      - REACT_APP_BASE_URL=http://localhost:4000/
     ports:
       - 80:80
     depends_on:
       - sys-market_server-img
-  database:
-    image: postgres:latest
-    restart: always
-    environment:
-      - DATABASE_HOST=127.0.0.1
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_USER=adminUser
-      - POSTGRES_DB=sysmarketdb
-    ports:
-          - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+  # database:
+  #   image: postgres:latest
+  #   restart: always
+  #   environment:
+  #     - DATABASE_HOST=127.0.0.1
+  #     - POSTGRES_PASSWORD=mysecretpassword
+  #     - POSTGRES_USER=adminUser
+  #     - POSTGRES_DB=sysmarketdb
+  #   ports:
+  #         - 5432:5432
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
   # pgadmin:
   #   image: dpage/pgadmin4
   #   environment:
@@ -44,5 +44,5 @@ services:
   #     - 8080:80
   #   depends_on:
   #     - database
-volumes:
-  pgdata: {}
+# volumes:
+#   pgdata: {}

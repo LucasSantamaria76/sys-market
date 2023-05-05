@@ -1,17 +1,17 @@
-import bcrypt from 'bcrypt';
-import { UserService } from './user.service';
-import jwt from 'jsonwebtoken';
-import { Prisma } from '@prisma/client';
+import bcrypt from 'bcrypt'
+import { UserService } from './user.service'
+import jwt from 'jsonwebtoken'
+import { TUser } from '../types'
 
 export const AuthService = {
-  register: async ({ password, ...restUserData }: Prisma.userCreateInput) => {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    return await UserService.create({ ...restUserData, password: hashedPassword });
+  register: async ({ password, ...restUserData }: TUser) => {
+    const hashedPassword = await bcrypt.hash(password, 10)
+    return await UserService.create({ ...restUserData, password: hashedPassword })
   },
   login: async (userName: string) => {
-    const SECRET = process.env.SECRET || '';
+    const SECRET = process.env.SECRET || ''
     return jwt.sign({ userName }, SECRET, {
-      expiresIn: '8h',
-    });
-  },
-};
+      expiresIn: '8h'
+    })
+  }
+}

@@ -1,15 +1,15 @@
-FROM node:18-alpine
+FROM node:16-alpine
 
 RUN npm i -g ts-node
 
-WORKDIR /usr/app
+WORKDIR /usr/src/app
 
 COPY package*.json .
 
 COPY . .
 
-RUN npm i
+RUN yarn
 
 EXPOSE 4000
 
-CMD [ "npm", "start" ]
+CMD [ "yarn" , "dev" ]

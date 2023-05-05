@@ -2,9 +2,9 @@
 
 -- DROP DATABASE IF EXISTS lucas;
 
-CREATE DATABASE lucas
+CREATE DATABASE sysmarketdb
     WITH
-    OWNER = lucas
+    OWNER = adminUser
     ENCODING = 'UTF8'
     LC_COLLATE = 'en_US.utf8'
     LC_CTYPE = 'en_US.utf8'

@@ -1,9 +1,9 @@
-import { Prisma } from '@prisma/client';
-import { prisma } from '..';
-import { ERROR_CODES } from '../constants/error';
+import { prisma } from '..'
+import { ERROR_CODES } from '../constants/error'
+import { TProduct } from '../types'
 
 export const ProductsService = {
-  create: async (prod: any, providerID: number) => {
+  create: async (prod: TProduct, providerID: number) => {
     try {
       const product = await prisma.products.create({
         data: {
@@ -14,38 +14,38 @@ export const ProductsService = {
                 price_cost: prod.cost,
                 provider: {
                   connect: {
-                    id: providerID,
-                  },
-                },
-              },
-            ],
+                    id: providerID
+                  }
+                }
+              }
+            ]
           },
-          sale: {},
-        },
-      });
+          sale: {}
+        }
+      })
 
-      return { success: true, product };
+      return { success: true, product }
     } catch (error: any) {
-      console.log('error: ', error);
+      console.log('error: ', error)
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al crear el producto',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
   },
-  getProductsByProvider: async (providerID: any) => {
+  getProductsByProvider: async (providerID: number) => {
     try {
       const data = await prisma.providers.findUnique({
         where: { id: providerID },
         include: {
           products: {
             include: {
-              product: {},
-            },
-          },
-        },
-      });
+              product: {}
+            }
+          }
+        }
+      })
       const listProducts = data?.products?.reduce(
         (acc: any, act) =>
           (acc = [
@@ -55,20 +55,20 @@ export const ProductsService = {
               description: act.product.description,
               price_cost: act.price_cost,
               last_purchase: act.last_purchase,
-              photoURL: act.product.photoURL,
-            },
+              photoURL: act.product.photoURL
+            }
           ]),
         []
-      );
+      )
 
-      return { success: true, listProducts };
+      return { success: true, listProducts }
     } catch (error: any) {
-      console.log('error: ', error);
+      console.log('error: ', error)
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al recuperar los productos',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
   },
   getAll: async () => {
@@ -77,20 +77,20 @@ export const ProductsService = {
         include: {
           providers: {
             include: {
-              provider: {},
-            },
-          },
-        },
-      });
+              provider: {}
+            }
+          }
+        }
+      })
 
-      return { success: true, products };
+      return { success: true, products }
     } catch (error: any) {
-      console.log(error.code);
+      console.log(error.code)
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al recuperar los productos',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
   },
   getByBarcode: async (barcode: string) => {
@@ -98,72 +98,72 @@ export const ProductsService = {
       const product = await prisma.products.findUnique({
         where: { barcode },
         include: {
-          providers: {},
-        },
-      });
+          providers: {}
+        }
+      })
 
-      return { success: true, product };
+      return { success: true, product }
     } catch (error: any) {
-      console.log(error.code);
+      console.log(error.code)
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al recuperar el producto',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
   },
-  update: async (barcode: string, prod: Prisma.productsCreateInput) => {
+  update: async (barcode: string, prod: TProduct) => {
     try {
       const result = await prisma.products.update({
         where: { barcode },
-        data: { ...prod },
-      });
+        data: { ...prod }
+      })
 
-      return { success: true, result };
+      return { success: true, result }
     } catch (error: any) {
-      console.log({ error });
+      console.log({ error })
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al actualizar el producto',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
   },
 
   updateStock: async (barcode: string, isReduce: boolean, quantity: number) => {
-    const operation = isReduce ? { decrement: quantity } : { increment: quantity };
+    const operation = isReduce ? { decrement: quantity } : { increment: quantity }
     try {
       const result = await prisma.products.updateMany({
         where: { barcode },
         data: {
-          stock: operation,
-        },
-      });
+          stock: operation
+        }
+      })
 
-      return { success: true, result };
+      return { success: true, result }
     } catch (error: any) {
-      console.log(error.code);
+      console.log(error.code)
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al actualizar el producto',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
   },
   delete: async (barcode: string) => {
     try {
       const result = await prisma.products.delete({
-        where: { barcode },
-      });
+        where: { barcode }
+      })
 
-      return { success: true, result };
+      return { success: true, result }
     } catch (error: any) {
-      console.log(error.code);
+      console.log(error.code)
       return {
         success: false,
         error: ERROR_CODES[error.code] || 'Hubo un error al eliminar el producto',
-        fields: error.meta?.target,
-      };
+        fields: error.meta?.target
+      }
     }
-  },
-};
+  }
+}
