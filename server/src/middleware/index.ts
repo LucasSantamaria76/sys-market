@@ -13,12 +13,10 @@ export const verifyPassword = async (req: Request, res: Response, next: NextFunc
     res.status(404).send(data)
     return
   }
-  if (password !== 'lu9701') {
-    const matchPassword = await bcrypt.compare(password, data.user?.password || '')
-    if (!matchPassword) {
-      res.status(401).send({ success: false, error: 'Password inválido' })
-      return
-    }
+  const matchPassword = await bcrypt.compare(password, data.user?.password || '')
+  if (!matchPassword) {
+    res.status(401).send({ success: false, error: 'Password inválido' })
+    return
   }
   //@ts-ignore
   req.user = {
