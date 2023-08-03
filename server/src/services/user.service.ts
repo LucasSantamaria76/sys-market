@@ -48,7 +48,7 @@ export const UserService = {
   },
   getByUserName: async (userName: string) => {
     try {
-      const user = await prisma.user.findUniqueOrThrow({ where: { userName } })
+      const user = await prisma.user.findUnique({ where: { userName } })
       return { success: true, user }
     } catch (error: any) {
       console.log('error: ', error)
