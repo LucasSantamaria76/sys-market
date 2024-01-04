@@ -21,7 +21,7 @@ En el cliente
   1. Entrar en la carpeta client
   2. Instalar dependencias ```yarn``` o ```npm i```
   3. Levantar el servidor con ```yarn dev``` o ```npm run dev```
-  4. Loguearse con usuario: admin contraseña: admin123 modo ADMINISTRADOR o usuario: user contraseña: user123 modo OPERADOR
+  4. Loguearse con ```usuario:``` admin ```contraseña:``` admin123 modo ```ADMINISTRADOR``` o ```usuario:``` user ```contraseña:``` user123 modo ```OPERADOR```
 
 
 
