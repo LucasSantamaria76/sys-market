@@ -47,19 +47,19 @@ export const ProductsService = {
         }
       })
       const listProducts = data?.products?.reduce(
-        (acc: any, act) =>
-          (acc = [
-            ...acc,
-            {
-              barcode: act.productID,
-              description: act.product.description,
-              price_cost: act.price_cost,
-              last_purchase: act.last_purchase,
-              photoURL: act.product.photoURL
-            }
-          ]),
-        []
-      )
+				(acc: any, act: any) =>
+					(acc = [
+						...acc,
+						{
+							barcode: act.productID,
+							description: act.product.description,
+							price_cost: act.price_cost,
+							last_purchase: act.last_purchase,
+							photoURL: act.product.photoURL,
+						},
+					]),
+				[]
+			);
 
       return { success: true, listProducts }
     } catch (error: any) {
