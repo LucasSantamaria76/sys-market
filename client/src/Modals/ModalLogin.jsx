@@ -23,51 +23,51 @@ export const ModalLogin = ({ opened, setOpened }) => {
     },
   });
   return (
-    <Modal
-      opened={opened}
-      onClose={() => {
-        FormLogin.reset();
-        setOpened(false);
-      }}
-      title={
-        <Title color={theme.primaryColor} order={3}>
-          Iniciar sesión
-        </Title>
-      }
-      centered>
-      <form
-        onSubmit={FormLogin.onSubmit(async (values) => {
-          setLoading(true);
-          const res = await fetchApi({ endPoint: 'auth/login', method: 'POST', body: values });
-          if (res.success) {
-            FormLogin.reset();
-            setOpened(false);
-            dispatch(login(res.user));
-          } else showNotification(showError(res.error));
-          setLoading(false);
-        })}>
-        <TextInput
-          placeholder='Ingrese su nombre de usuario'
-          label='Nombre de usuario'
-          withAsterisk
-          data-autofocus
-          {...FormLogin.getInputProps('userName')}
-        />
-        <PasswordInput
-          label='Password'
-          placeholder='Ingrese su password'
-          withAsterisk
-          autoComplete='off'
-          visibilityToggleIcon={({ reveal, size }) =>
-            reveal ? <IoEyeOffOutline size={size} /> : <IoEyeOutline size={size} />
-          }
-          mb={10}
-          {...FormLogin.getInputProps('password')}
-        />
-        <Button type='submit' variant='outline' mt={15} loading={loading}>
-          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-        </Button>
-      </form>
-    </Modal>
-  );
+		<Modal
+			opened={opened}
+			onClose={() => {
+				FormLogin.reset();
+				setOpened(false);
+			}}
+			title={
+				<Title color={theme.primaryColor} order={3}>
+					Iniciar sesión
+				</Title>
+			}
+			centered>
+			<form
+				onSubmit={FormLogin.onSubmit(async (values) => {
+					setLoading(true);
+					const res = await fetchApi({ endPoint: 'auth/login', method: 'POST', body: values });
+					if (res.success) {
+						FormLogin.reset();
+						setOpened(false);
+						dispatch(login(res.user));
+					} else showNotification(showError(res.error));
+					setLoading(false);
+				})}>
+				<TextInput
+					placeholder='Ingrese su nombre de usuario'
+					label='Nombre de usuario'
+					withAsterisk
+					data-autofocus
+					{...FormLogin.getInputProps('userName')}
+				/>
+				<PasswordInput
+					label='Contraseña'
+					placeholder='Ingrese su contraseña'
+					withAsterisk
+					autoComplete='off'
+					visibilityToggleIcon={({ reveal, size }) =>
+						reveal ? <IoEyeOffOutline size={size} /> : <IoEyeOutline size={size} />
+					}
+					mb={10}
+					{...FormLogin.getInputProps('password')}
+				/>
+				<Button type='submit' variant='outline' mt={15} loading={loading}>
+					{loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+				</Button>
+			</form>
+		</Modal>
+	);
 };
