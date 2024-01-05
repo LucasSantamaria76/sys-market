@@ -44,80 +44,91 @@ export const Sales = () => {
   const [opened, { close, open }] = useDisclosure(false);
 
   useEffect(() => {
-    const orderNadSaveProducts = async () => {
-      const orderedProducts = await data?.products
-        .map((item) => item)
-        .sort((a, b) => a['description'].toLowerCase().localeCompare(b['description'].toLowerCase()));
+		const orderNadSaveProducts = async () => {
+			const orderedProducts = await data?.products
+				.filter((product) => product.stock > 0)
+				.map((item) => item)
+				.sort((a, b) =>
+					a['description'].toLowerCase().localeCompare(b['description'].toLowerCase())
+				);
 
-      setProducts(
-        orderedProducts?.reduce((acc, item) => {
-          return (acc = [
-            ...acc,
-            {
-              value: item.description,
-              label: item.description,
-              image: item.photoURL,
-            },
-          ]);
-        }, [])
-      );
-    };
-    orderNadSaveProducts();
-  }, [data?.products]);
+			setProducts(
+				orderedProducts?.reduce((acc, item) => {
+					return (acc = [
+						...acc,
+						{
+							value: item.description,
+							label: item.description,
+							image: item.photoURL,
+						},
+					]);
+				}, [])
+			);
+		};
+		orderNadSaveProducts();
+	}, [data?.products]);
 
-  useEffect(() => {
-    setSummary({
-      quantity: items?.reduce((acc, item) => acc + Number(item.quantity), 0),
-      total: items?.reduce((acc, item) => acc + Number(item.subTotal), 0),
-    });
-  }, [items]);
+	useEffect(() => {
+		setSummary({
+			quantity: items?.reduce((acc, item) => acc + Number(item.quantity), 0),
+			total: items?.reduce((acc, item) => acc + Number(item.subTotal), 0),
+		});
+	}, [items]);
 
-  const SelectItem = forwardRef(({ image, label, ...others }, ref) => (
-    <div ref={ref} {...others}>
-      <Group noWrap>
-        <Avatar src={image} />
-        <div>
-          <Text size='sm'>{label}</Text>
-        </div>
-      </Group>
-    </div>
-  ));
+	const SelectItem = forwardRef(({ image, label, ...others }, ref) => (
+		<div ref={ref} {...others}>
+			<Group noWrap>
+				<Avatar src={image} />
+				<div>
+					<Text size='sm'>{label}</Text>
+				</div>
+			</Group>
+		</div>
+	));
 
-  const handleChange = (event) => {
-    if (event.target?.name === 'quantity' && !/^\d*$/.test(event.target?.value)) return;
+	const handleChange = (event) => {
+		if (event.target?.name === 'quantity' && !/^\d*$/.test(event.target?.value)) return;
 
-    if (typeof event === 'string') {
-      const prod = data?.products?.find((item) => item.description === event);
-      setValues({
-        ...values,
-        barcode: prod?.barcode,
-        description: event,
-      });
-    } else
-      setValues({
-        ...values,
-        [event.target.name]: event.target.value,
-      });
-  };
+		if (typeof event === 'string') {
+			const prod = data?.products?.find((item) => item.description === event);
+			setValues({
+				...values,
+				barcode: prod?.barcode,
+				description: event,
+			});
+		} else
+			setValues({
+				...values,
+				[event.target.name]: event.target.value,
+			});
+	};
 
-  const addProduct = () => {
-    if (!!values.barcode) {
-      const { barcode, description, price, photoURL } = data?.products?.find((item) => item.barcode === values.barcode);
-      if (!!barcode) {
-        const product = {
-          barcode,
-          description,
-          price,
-          photoURL,
-          quantity: values.quantity,
-          subTotal: +price * values.quantity,
-        };
-        dispatch(addItem(product));
-        setValues(item);
-        barcodeRef.current?.focus();
-      } else showNotification(notification('Producto no encontrado'));
-    }
-  };
+	const addProduct = () => {
+		if (values.quantity > data?.products?.find((item) => item.barcode === values.barcode).stock) {
+			showNotification(notification('No hay suficiente stock de ese producto'));
+			return;
+		}
+
+		console.log(values);
+		if (!!values.barcode) {
+			const { barcode, description, price, photoURL } = data?.products?.find(
+				(item) => item.barcode === values.barcode
+			);
+			if (!!barcode) {
+				const product = {
+					barcode,
+					description,
+					price,
+					photoURL,
+					quantity: values.quantity,
+					subTotal: +price * values.quantity,
+				};
+				dispatch(addItem(product));
+				setValues(item);
+				barcodeRef.current?.focus();
+			} else showNotification(notification('Producto no encontrado'));
+		}
+	};
 
   const handleKeyDown = (e) => {
     e.stopPropagation();
